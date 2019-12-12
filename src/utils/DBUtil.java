@@ -8,7 +8,7 @@ public class DBUtil {
     private static final String PERSISTENCE_UNIT_NAME ="daily_report_system";
     private static EntityManagerFactory emf;
 
-    public static EntityManager createEntityManagerFactory(){
+    public static EntityManager createEntityManager(){
         return _getEntityManagerFactory().createEntityManager();
     }
 
