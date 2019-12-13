@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
         <c:choose>
@@ -12,7 +12,7 @@
                 </form>
 
                 <p>
-                    <a href="#" onclick="confirmDestory();">この従業員情報を削除する</a>
+                    <a href="#" onclick="confirmDestroy();">この従業員情報を削除する</a>
                 </p>
                 <form method="POST" action="<c:url value='/employees/destroy' />">
                     <input type="hidden" name="_token" value="${_token}">
