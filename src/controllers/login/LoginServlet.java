@@ -52,14 +52,15 @@ public class LoginServlet extends HttpServlet {
      */
     //ログイン処理を実行
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //任所結果を格納する変数
+        //認証結果を格納する変数
         Boolean check_result= false;
 
         String code =request.getParameter("code");
-        String plain_pass = request.getParameter("passpword");
+        String plain_pass = request.getParameter("password");
 
         Employee e = null;
-        if(code != null && !code.equals("") && plain_pass != null &&!plain_pass.equals("")){
+
+        if(code != null && !code.equals("") && plain_pass != null && !plain_pass.equals("")){
          EntityManager em = DBUtil.createEntityManager();
 
          String password = EncryptUtil.getPasswordEncrypt(
@@ -89,13 +90,14 @@ public class LoginServlet extends HttpServlet {
          request.setAttribute("hasError",true);
          request.setAttribute("code",code);
 
-         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login/;ogin.jsp");
+         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login/login.jsp");
          rd.forward(request, response);
 
 
          }else {
              //認証出来たらログイン状態でトップページへリダイレクト
              request.getSession().setAttribute("login_employee", e);
+
              request.getSession().setAttribute("flush", "ログインしました");
              response.sendRedirect(request.getContextPath() + "/");
 
