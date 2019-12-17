@@ -138,7 +138,7 @@ h1 a {
 
 table#report_list th {
     font-weight: bold;
-    padding: 10px;
+    padding: 10px 2%;
 }
 
 table#report_list .report_name {
@@ -156,4 +156,9 @@ table#report_list .report_title {
 
 table#report_list .report_action {
     width: 13%;
+}
+
+pre {
+    font-family: "Hiragino Kaku Gothic Pro", Meiryo, "MS PGothic", Helvetica,
+        Arial, sans-serif;
 }
