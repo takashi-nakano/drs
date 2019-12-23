@@ -26,7 +26,7 @@
                         <tr>
                             <th>登録日時</th>
                             <td><fmt:formatDate value="${report.created_at}"
-                                    pattern="yyyy-MM-dd HH:mm;ss" /></td>
+                                    pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         </tr>
                         <tr>
                             <th>更新日時</th>
