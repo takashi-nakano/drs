@@ -10,10 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Table(name = "timecards")
+@NamedQueries({
+    @NamedQuery(name="getNotFinTimecards",query="SELECT t FROM Timecard AS t WHERE t.employee =:employee AND t.end_at IS NULL")
 
+})
 @Entity
 public class Timecard {
 
