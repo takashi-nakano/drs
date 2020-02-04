@@ -1,6 +1,7 @@
 package controllers.login;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Timecard;
 import utils.DBUtil;
 import utils.EncryptUtil;
 
@@ -97,6 +99,24 @@ public class LoginServlet extends HttpServlet {
 
         } else {
             //認証出来たらログイン状態でトップページへリダイレクト
+            //出勤状態の確認
+            EntityManager em = DBUtil.createEntityManager();
+            Timecard today_t = null;
+            try{
+            today_t = em.createNamedQuery("getTodayTimecard",Timecard.class)
+                    .setParameter("employee", e)
+                    .setParameter("day", new Date(System.currentTimeMillis()))
+                    .getSingleResult();
+            } catch (NoResultException ex) {
+            }
+            em.close();
+
+            if(today_t != null){
+                request.getSession().setAttribute("today_timecard", today_t);
+            }else{
+            }
+
+
             request.getSession().setAttribute("login_employee", e);
 
             request.getSession().setAttribute("flush", "ログインしました");

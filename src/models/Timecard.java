@@ -16,7 +16,8 @@ import javax.persistence.Table;
 
 @Table(name = "timecards")
 @NamedQueries({
-    @NamedQuery(name="getNotFinTimecards",query="SELECT t FROM Timecard AS t WHERE t.employee =:employee AND t.end_at IS NULL")
+    @NamedQuery(name="getNotFinTimecards",query="SELECT t FROM Timecard AS t WHERE t.employee =:employee AND t.end_at IS NULL"),
+    @NamedQuery(name="getTodayTimecard",query="SELECT t FROM Timecard AS t WHERE t.employee =:employee AND t.timecard_day =:day AND t.end_at IS NULL")
 
 })
 @Entity
