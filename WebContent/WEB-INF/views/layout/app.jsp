@@ -35,7 +35,7 @@
                     <a href="<c:url value='/start' />">始業</a>
                     </c:if>
                     <c:if test="${sessionScope.today_timecard != null }">
-                    <a href="<c:url value='/endform' />">退勤</a>
+                    <a href="<c:url value='/end_new' />">退勤</a>
                     </c:if>
 
                     &nbsp;&nbsp;&nbsp; <a href="<c:url value='/logout' />">ログアウト</a>
