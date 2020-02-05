@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import models.Timecard;
 
 /**
- * Servlet implementation class TimecardEndForm
+ * Servlet implementation class TimecardEndNew
  */
 @WebServlet("/end_new")
 public class TimecardEndNew extends HttpServlet {

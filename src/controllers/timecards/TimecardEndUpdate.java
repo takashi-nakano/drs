@@ -50,11 +50,10 @@ public class TimecardEndUpdate extends HttpServlet {
 
 
             request.getSession().removeAttribute("today_timecard");
+            request.getSession().removeAttribute("timecard_id");
 
             response.sendRedirect(request.getContextPath()+ "/");
 
-        }else{
-            System.out.println("ミス");
         }
 
     }
