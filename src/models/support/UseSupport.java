@@ -9,10 +9,12 @@ public class UseSupport {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
 
-        start.set(2020, 1-1, 1);
-        end.set(2020, 12-1, 31);
+        start.set(2019, 11 - 1, 21);
+        end.set(2019, 12 - 1, 20);
 
-        InsertWorkday.insertWorkdays(start,end);
+        int employee_id = 10;
+
+        InsertTimecard.insertTimecardStoE(employee_id, start, end);
 
     }
 
