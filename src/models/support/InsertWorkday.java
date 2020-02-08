@@ -23,7 +23,7 @@ public class InsertWorkday {
                 Date sql_day = new Date(date.getTime().getTime());
 
                 wd.setWorkday(sql_day);
-                wd.setMonth_group(makeMonth_group(date));
+                wd.setMonth_group(MonthGroupSupport.getThisMonth_group(date));
 
                 System.out.println(wd.getWorkday());
                 System.out.println(wd.getMonth_group());
@@ -38,30 +38,5 @@ public class InsertWorkday {
 
     }
 
-    public static Integer makeMonth_group(Calendar day) {
-
-        Calendar date = day;
-        int y = date.get(Calendar.YEAR);
-        int m = date.get(Calendar.MONTH);
-
-        if (date.get(Calendar.DATE) <= 20) {
-            m = m + 1;
-        } else {
-            m = m + 2;
-            if(m == 13){
-                m = 1;
-                y = y+1;
-            }
-        }
-        String month = String.valueOf(m);
-
-        if (month.length() == 1) {
-            month = "0" + month;
-        }
-        String year = String.valueOf(y);
-        String mg = year + month;
-
-        return Integer.valueOf(mg);
-    }
 
 }

@@ -5,9 +5,15 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Table(name = "workdays")
+@NamedQueries({
+    @NamedQuery(name="getWorkdays",query="SELECT w FROM Workday AS w WHERE w.month_group =:month_group ORDER BY w.workday ASC "),
+    @NamedQuery(name="getMonthList",query="SELECT new models.MonthList(w.month_group) FROM Workday AS w WHERE w.month_group <=:month_group GROUP BY w.month_group ORDER BY w.month_group DESC"),
+})
 
 @Entity
 public class Workday {

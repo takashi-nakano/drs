@@ -29,8 +29,8 @@ public class InsertTimecard {
 
                 Date sql_date = new Date(date.getTime().getTime());
 
-                LocalTime l_sT = LocalTime.of(7, minuteRandom(35, 55));
-                LocalTime l_eT = LocalTime.of(17, minuteRandom(5, 25));
+                LocalTime l_sT = LocalTime.of(8, minuteRandom(15, 25));
+                LocalTime l_eT = LocalTime.of(16, minuteRandom(55, 59));
                 LocalTime l_rT = LocalTime.of(1, 0);
 
                 String c = "";
@@ -57,8 +57,7 @@ public class InsertTimecard {
     public static int minuteRandom() {
 
         Random r = new Random();
-        int m = r.nextInt(60);
-        return m;
+        return r.nextInt(60);
     }
 
     public static int minuteRandom(int from, int end) {

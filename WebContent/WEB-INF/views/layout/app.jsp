@@ -23,7 +23,7 @@
                         <a href="<c:url value='#' />">勤退管理</a>&nbsp;&nbsp;
                     </c:if>
                     <a href="<c:url value='/reports/index' />">日報管理</a>&nbsp;&nbsp;
-                    <a href="<c:url value='#' />">タイムカード</a>
+                    <a href="<c:url value='/timecard/index_personal' />">タイムカード</a>
                     </c:if>
             </div>
             <c:if test="${sessionScope.login_employee != null}">
