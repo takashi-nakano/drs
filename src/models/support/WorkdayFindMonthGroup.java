@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import models.MonthList;
-import models.Workday;
 import utils.DBUtil;
 
 public class WorkdayFindMonthGroup {
@@ -21,10 +20,10 @@ public class WorkdayFindMonthGroup {
 
         return ml;
     }
-    public static List<Workday> getAllMonthList(){
+    public static List<MonthList> getAllMonthList(){
         EntityManager em = DBUtil.createEntityManager();
 
-        List<Workday> ml = em.createNamedQuery("getMonthList", Workday.class)
+        List<MonthList> ml = em.createNamedQuery("getMonthList", MonthList.class)
                 .setParameter("month_group", MonthGroupSupport.getCurrentMonth_group())
                 .getResultList();
         em.close();

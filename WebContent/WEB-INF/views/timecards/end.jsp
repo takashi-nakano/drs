@@ -24,8 +24,8 @@
         <label for="rest_time">休憩時間</label>
         <br />
         <input type="time" name="rest_time" value="01:00" >
-        <br /><br />
-        <input type="text" class="coment" name="coment" size="60" placeholder="休憩時間が1時間30分を超える場合は理由を記入"  value="">
+        <br /><br /><label for="coment">備考</label>
+        <input type="text" class="coment" name="coment" size="60" placeholder="休憩時間が1時間30分を超える場合等に理由を記入"  value="">
     </div>
 
     <br />

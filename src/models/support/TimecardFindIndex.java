@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,7 +14,6 @@ import models.Workday;
 import utils.DBUtil;
 
 public class TimecardFindIndex {
-
 
     public static List<TimecardSupport> findIndex(int employee_id, int month_group) {
         EntityManager em = DBUtil.createEntityManager();
@@ -39,19 +39,37 @@ public class TimecardFindIndex {
 
             } catch (NoResultException ex) {
             }
-            if(t.getId()!=null){
-            TimecardSupport ts = new TimecardSupport();
+            if (t.getId() != null) {
+                TimecardSupport ts = new TimecardSupport();
 
-            ts.setTimecard(t);
-            if(t.getEnd_at()!=null){
-                ts.timecardSummary();
-            }
-            tss.add(ts);
+                ts.setTimecard(t);
+                if (t.getEnd_at() != null) {
+                    ts.timecardSummary();
+                }
+                tss.add(ts);
             }
 
         }
         em.close();
         return tss;
+
+    }
+
+    public static TimecardSupport findSingleTimecard(int id) {
+        EntityManager em = DBUtil.createEntityManager();
+        Timecard t = new Timecard();
+
+        t = (Timecard) em.find(Timecard.class, id);
+        if(Objects.isNull(t)){
+            return null;
+        }
+        TimecardSupport ts = new TimecardSupport();
+        ts.setTimecard(t);
+        if (t.getEnd_at() != null) {
+            ts.timecardSummary();
+        }
+
+        return ts;
 
     }
 
