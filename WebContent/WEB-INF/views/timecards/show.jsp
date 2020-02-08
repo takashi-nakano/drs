@@ -47,7 +47,9 @@
                         <td><c:out value="${timecard.timecard.coment}" /></td>
                     </tr>
                 </table>
-
+                <c:if test="${sessionScope.login_employee.admin_flag == 1 and sessionScope.login_employee.id != timecard.timecard.employee.id}">
+                <a href="<c:url value='/timecard/edit?id=${timecard.timecard.id}' />" >このタイムカードを修正する</a>
+                </c:if>
 
             </c:otherwise>
         </c:choose>
