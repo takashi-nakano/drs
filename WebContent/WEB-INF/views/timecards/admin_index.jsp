@@ -29,7 +29,11 @@
 
             <c:forEach var="timecards" items="${timecards}" varStatus="status">
                 <tr class="row${status.count%2}">
-                   <td><c:out value="${timecards.employee.code}" /></td>
+                   <td>
+                   <a href="<c:url value='/timecard/index_personal?id=${timecards.employee.id}'/>">
+                   <c:out value='${timecards.employee.code}' /></a>
+
+                   </td>
                    <td><c:out value="${timecards.employee.name}" /></td>
                    <td><c:out value="${timecards.str_over_time}" /></td>
                    <td><c:out value="${timecards.status}" /></td>

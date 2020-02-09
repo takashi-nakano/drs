@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
 import models.MonthList;
+import models.support.EmployeeFindSupport;
 import models.support.MonthGroupSupport;
 import models.support.MonthTotalSummary;
 import models.support.TimecardFindIndex;
@@ -40,8 +41,14 @@ public class TimecardIndex extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        Employee e = new Employee();
 
-        Employee e = (Employee) request.getSession().getAttribute("login_employee");
+        if(request.getParameter("id")!=null){
+            e = EmployeeFindSupport.singleEmployeeFind(Integer.parseInt(request.getParameter("id")));
+
+        }else{
+            e = (Employee) request.getSession().getAttribute("login_employee");
+        }
         Integer month;
 
         if ((request.getParameter("month") != null)) {
@@ -64,7 +71,7 @@ public class TimecardIndex extends HttpServlet {
         }else{
             ml = WorkdayFindMonthGroup.getOneYearMonthList();
         }
-
+        request.setAttribute("target_employee", e);
         request.setAttribute("timecards", tss);
         request.setAttribute("month_data", mts);
         request.setAttribute("month_list", ml);

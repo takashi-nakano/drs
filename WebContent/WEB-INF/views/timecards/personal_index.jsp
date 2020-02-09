@@ -6,6 +6,7 @@
     <c:param name="content">
 
         <h2>勤退 一覧</h2>
+        <h3>${target_employee.name}さんのタイムカード</h3>
         <div class="select_month">
         <form action="<c:url value='/timecard/index_personal' />" method="GET">
             <select name="month">
@@ -14,6 +15,8 @@
                 </c:forEach>
             </select>
             &nbsp;
+
+            <input type="hidden" name="id" value="${target_employee.id}" />
             <input type="submit" value="表示">
             </form>
 
@@ -58,5 +61,9 @@
                 </tr>
             </c:forEach>
         </table>
+        <br />
+        <c:if test="${login_employee.admin_flag == 1 and login_employee.id != target_employee.id}">
+            <a href="<c:url value='/timecard/new?id=${target_employee.id}' />">この従業員のタイムカードを作成する</a>
+        </c:if>
     </c:param>
 </c:import>
