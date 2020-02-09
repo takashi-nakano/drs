@@ -40,9 +40,9 @@ public class TimecardIndex extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+
         Employee e = (Employee) request.getSession().getAttribute("login_employee");
         Integer month;
-        System.out.println(request.getParameter("month"));
 
         if ((request.getParameter("month") != null)) {
             month = Integer.parseInt(request.getParameter("month"));
@@ -57,7 +57,13 @@ public class TimecardIndex extends HttpServlet {
                 TimecardSupport.getTotal_over_time(), TimecardSupport.getDay_count(), month);
         mts.sumMonthTotalSummary();
 
-        List<MonthList> ml = WorkdayFindMonthGroup.getOneYearMonthList();
+        List<MonthList> ml = new ArrayList<MonthList>();
+
+        if(e.getAdmin_flag()==1){
+            ml = WorkdayFindMonthGroup.getAllMonthList();
+        }else{
+            ml = WorkdayFindMonthGroup.getOneYearMonthList();
+        }
 
         request.setAttribute("timecards", tss);
         request.setAttribute("month_data", mts);

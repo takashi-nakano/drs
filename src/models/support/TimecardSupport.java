@@ -44,7 +44,7 @@ public class TimecardSupport {
     }
 
 
-    public LocalTime sumActual_time(Timecard timecard) {
+    public static LocalTime sumActual_time(Timecard timecard) {
 
         LocalTime l_st = timecard.getStart_at().toLocalTime();
         LocalTime l_et = timecard.getEnd_at().toLocalTime();
@@ -57,7 +57,7 @@ public class TimecardSupport {
 
     }
 
-    public Integer sumOver_time(LocalTime actual_time) {
+    public static Integer sumOver_time(LocalTime actual_time) {
         int second = actual_time.toSecondOfDay();
         Integer over_time;
         if (second < 4 * 60 * 60) {
