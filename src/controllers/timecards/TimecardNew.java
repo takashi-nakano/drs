@@ -15,7 +15,7 @@ import models.support.EmployeeFindSupport;
 /**
  * Servlet implementation class TimecardNew
  */
-@WebServlet("/timecard/new")
+@WebServlet("/timecard/admin/new")
 public class TimecardNew extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -30,16 +30,23 @@ public class TimecardNew extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         int employee_id = Integer.parseInt(request.getParameter("id"));
-        Employee e = EmployeeFindSupport.singleEmployeeFind(employee_id);
+        Employee target_e = EmployeeFindSupport.singleEmployeeFind(employee_id);
+        Employee login_e = (Employee) request.getSession().getAttribute("login_employee");
 
-        request.setAttribute("_token", request.getSession().getId());
-        request.getSession().setAttribute("target_employee",e);
+        if (target_e.getId() == login_e.getId()) {
+            response.sendRedirect(request.getContextPath() + "/");
+        } else {
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/new.jsp");
-        rd.forward(request, response);
+            request.setAttribute("_token", request.getSession().getId());
+            request.getSession().setAttribute("target_employee", target_e);
+
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/new.jsp");
+            rd.forward(request, response);
+        }
     }
 
 }

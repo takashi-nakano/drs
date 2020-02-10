@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
-        <form method="POST" action="<c:url value='/timecard/update' />">
+        <form method="POST" action="<c:url value='/timecard/admin/update' />">
         <c:import url="/WEB-INF/views/timecards/_form.jsp" />
         </form>
 

@@ -63,7 +63,7 @@
         </table>
         <br />
         <c:if test="${login_employee.admin_flag == 1 and login_employee.id != target_employee.id}">
-            <a href="<c:url value='/timecard/new?id=${target_employee.id}' />">この従業員のタイムカードを作成する</a>
+            <a href="<c:url value='/timecard/admin/new?id=${target_employee.id}' />">この従業員のタイムカードを作成する</a>
         </c:if>
     </c:param>
 </c:import>

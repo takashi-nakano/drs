@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Employee;
 import models.MonthList;
 import models.support.MonthGroupSupport;
 import models.support.TimecardFindIndex;
@@ -21,7 +20,7 @@ import models.support.WorkdayFindMonthGroup;
 /**
  * Servlet implementation class TimecardIndexForAdmin
  */
-@WebServlet("/timecard/index_admin")
+@WebServlet("/timecard/admin/index")
 public class TimecardIndexForAdmin extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -36,41 +35,33 @@ public class TimecardIndexForAdmin extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         long st = System.currentTimeMillis();
 
-        Employee login_e = (Employee)request.getSession().getAttribute("login_employee");
+        Integer month;
 
-        if(login_e.getAdmin_flag()==0){
-            response.sendRedirect(request.getContextPath()+"/");
-        }else{
+        if ((request.getParameter("month") != null)) {
+            month = Integer.parseInt(request.getParameter("month"));
+        } else {
 
-            Integer month ;
-
-            if ((request.getParameter("month") != null)) {
-                month = Integer.parseInt(request.getParameter("month"));
-            } else {
-
-                month = MonthGroupSupport.getCurrentMonth_group();
-            }
-
-            List<TimecardSimpleSummary> tss = new ArrayList<TimecardSimpleSummary>();
-            tss=TimecardFindIndex.findTimecardForAdmin(month);
-
-
-            List <MonthList> ml= WorkdayFindMonthGroup.getAllMonthList();
-
-            request.setAttribute("month_list",ml);
-            request.setAttribute("timecards", tss);
-            request.setAttribute("month_parameter", month);
-
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/admin_index.jsp");
-            rd.forward(request, response);
-
-            System.out.println(((long)System.currentTimeMillis()-st)+"ミリ秒");
-
-
+            month = MonthGroupSupport.getCurrentMonth_group();
         }
+
+        List<TimecardSimpleSummary> tss = new ArrayList<TimecardSimpleSummary>();
+        tss = TimecardFindIndex.findTimecardForAdmin(month);
+
+        List<MonthList> ml = WorkdayFindMonthGroup.getAllMonthList();
+
+        request.setAttribute("month_list", ml);
+        request.setAttribute("timecards", tss);
+        request.setAttribute("month_parameter", month);
+
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/admin_index.jsp");
+        rd.forward(request, response);
+
+        System.out.println(((long) System.currentTimeMillis() - st) + "ミリ秒");
+
     }
 
 }

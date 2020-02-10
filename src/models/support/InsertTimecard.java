@@ -29,11 +29,11 @@ public class InsertTimecard {
 
                 Date sql_date = new Date(date.getTime().getTime());
 
-                LocalTime l_sT = LocalTime.of(8, minuteRandom(15, 25));
-                LocalTime l_eT = LocalTime.of(16, minuteRandom(55, 59));
+                LocalTime l_sT = LocalTime.of(7, minuteRandom(0,10));
+                LocalTime l_eT = LocalTime.of(17, minuteRandom(10, 15));
                 LocalTime l_rT = LocalTime.of(1, 0);
 
-                String c = "";
+                String c = "自動挿入";
 
                 t.setEmployee(e);
                 t.setTimecard_day(sql_date);
@@ -42,8 +42,6 @@ public class InsertTimecard {
                 t.setRest_time(Time.valueOf(l_rT));
                 t.setComent(c);
 
-                System.out.println("日付" + t.getTimecard_day() + " 開始" + t.getStart_at() + " 終了" + t.getEnd_at() + " 休憩"
-                        + t.getRest_time() + " コメント" + t.getComent());
 
                 em.getTransaction().begin();
                 em.persist(t);

@@ -65,6 +65,11 @@ public class LoginFilter implements Filter {
                     return;
                 }
 
+                if(servlet_path.matches("/timecard/admin.*") && e.getAdmin_flag()==0){
+                    ((HttpServletResponse)response).sendRedirect(context_path+ "/");
+                    return;
+                }
+
             }else {
                 //ログインしているのにログイン画面を表示させようとした場合は
                 //システムのトップページにリダイレクト

@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Timecard;
 import utils.DBUtil;
 
 /**
  * Servlet implementation class TimecardEdit
  */
-@WebServlet("/timecard/edit")
+@WebServlet("/timecard/admin/edit")
 public class TimecardEdit extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -31,18 +32,26 @@ public class TimecardEdit extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
-        int timecard_id=Integer.valueOf(request.getParameter("id"));
+        int timecard_id = Integer.valueOf(request.getParameter("id"));
 
         Timecard t = (Timecard) em.find(Timecard.class, timecard_id);
+        int target_e_id = t.getEmployee().getId();
+        Employee login_e = (Employee) request.getSession().getAttribute("login_employee");
 
-        request.setAttribute("timecard",t);
-        request.getSession().setAttribute("timecard_id", t.getId());
-        request.getSession().setAttribute("_token", request.getSession().getId());
+        if (target_e_id == login_e.getId()) {
+            response.sendRedirect(request.getContextPath() + "/");
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/edit.jsp");
-        rd.forward(request, response);
+        } else {
+
+            request.setAttribute("timecard", t);
+            request.getSession().setAttribute("timecard_id", t.getId());
+            request.getSession().setAttribute("_token", request.getSession().getId());
+
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/edit.jsp");
+            rd.forward(request, response);
+        }
     }
-
 }

@@ -17,7 +17,7 @@ import utils.DBUtil;
 /**
  * Servlet implementation class TimecardUpdate
  */
-@WebServlet("/timecard/update")
+@WebServlet("/timecard/admin/update")
 public class TimecardUpdate extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
