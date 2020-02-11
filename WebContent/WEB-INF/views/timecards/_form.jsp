@@ -26,14 +26,7 @@
     <div id="rest_time_input">
     <label for="rest_time">休憩時間</label>
     <br />
-<%--     <c:choose> --%>
-<%--     <c:when test="${timecard.rest_time!=null}"> --%>
-<%--     <input type="time" name="rest_time" value="<c:out value='${timecard.rest_time}' />"> --%>
-<%--     </c:when> --%>
-<%--     <c:otherwise> --%>
-    <input type="time" name="rest_time" value="01:00">
-<%--     </c:otherwise> --%>
-<%--     </c:choose> --%>
+    <input type="time" name="rest_time" value="<fmt:formatDate value='${timecard.rest_time}' pattern='HH:mm' />" >
 
      <br /> <br />
         <label for="coment">備考</label><br />
