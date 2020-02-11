@@ -2,8 +2,10 @@ package controllers.timecards;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import dbsupport.CastSupport;
 import models.Employee;
 import models.Timecard;
+import models.validators.TimecardValidators;
 import utils.DBUtil;
 
 /**
@@ -43,11 +46,28 @@ public class TimecardCreate extends HttpServlet {
             Timecard t = new Timecard();
 
             t.setEmployee(e);
+            try{
             t.setTimecard_day(Date.valueOf(request.getParameter("timecard_day")));
-            t.setStart_at(CastSupport.fromStrToTime((String)request.getParameter("start_at")));
-            t.setEnd_at(CastSupport.fromStrToTime((String)request.getParameter("end_at")));
-            t.setRest_time(CastSupport.fromStrToTime((String)request.getParameter("rest_time")));
+            }catch(Exception error){
+                t.setTimecard_day(null);
+            }
+            t.setStart_at(CastSupport.fromStrToTime(request.getParameter("start_at")));
+            t.setEnd_at(CastSupport.fromStrToTime(request.getParameter("end_at")));
+            t.setRest_time(CastSupport.fromStrToTime(request.getParameter("rest_time")));
             t.setComent(request.getParameter("coment"));
+
+            List <String> errors = TimecardValidators.validate(t, true);
+
+            if(errors.size() > 0){
+                em.close();
+                request.setAttribute("errors", errors);
+                request.setAttribute("timecard", t);
+                request.setAttribute("_token", request.getSession().getId());
+
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/new.jsp");
+                rd.forward(request, response);
+
+            }
 
             em.getTransaction().begin();
             em.persist(t);
