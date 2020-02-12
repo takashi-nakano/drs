@@ -9,7 +9,7 @@
         <h3>${target_employee.name}さんのタイムカード</h3>
         <div class="select_month">
         <form action="<c:url value='/timecard/index_personal' />" method="GET">
-            <select name="month">
+            <select class="select_month" name="month">
                 <c:forEach var="month_list" items="${month_list}">
                     <option value="${month_list.month_group}" <c:if test="${month_list.month_group ==month_parameter}"> selected </c:if>><c:out value="${month_list.str_month}" />
                 </c:forEach>
@@ -17,20 +17,32 @@
             &nbsp;
 
             <input type="hidden" name="id" value="${target_employee.id}" />
-            <input type="submit" value="表示">
+            <input class="btn_select_month" type="submit" value="表示">
             </form>
 
 
         </div>
-        <br />
         <div class="month_index">
             <p>合計実働時間：<c:out value="${month_data.str_total_actual_time}"/></p>
             <p>時間外労働時間：<c:out value="${month_data.str_total_over_time}"/> / <c:out value="${month_data.day_count}"/>:00 目標時間</p>
 
-            <div class="status_coment"><h3><c:out value="${month_data.status}"/></h3></div>
+            <c:choose>
+               <c:when test="${month_data.double_status>0.0 && month_data.double_status <= 1}" >
+                <div class="status normal"><c:out value="${month_data.status }"/></div>
+                </c:when>
+               <c:when test="${month_data.double_status < 2 && month_data.double_status > 1}" >
+                <div class="status coution"><c:out value="${month_data.status }"/></div>
+                </c:when>
+               <c:when test="${month_data.double_status >= 2}" >
+                <div class="status denger"><c:out value="${month_data.status }"/></div>
+                </c:when>
+                <c:otherwise>
+                <div class="status minus"><c:out value="${month_data.status }"/></div>
+                </c:otherwise>
 
-        </div>
+            </c:choose>
 
+         </div>
 
         <table id="tamecard">
             <tr>

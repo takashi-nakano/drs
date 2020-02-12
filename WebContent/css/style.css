@@ -166,3 +166,54 @@ pre {
 h3 {
     font-size: larger;
 }
+
+div.month_index {
+    font-size: 20px;
+    width: 500px;
+    background-color: #eee;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+div.select_month {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+select.select_month {
+    height: 35px;
+    width: 140px;
+}
+
+input.btn_select_month {
+    width: 80px;
+}
+
+
+div.status{
+    border-radius:10px;
+
+    width:140px;
+    height:50px;
+    font-size:35px;
+    text-align:center;
+    font-weight:bold;
+
+}
+
+.normal{
+    background-color:#00FF00;
+}
+.coution{
+    background-color:#FFFF00;
+}
+.denger{
+    background-color:#FF0000;
+}
+div.minus{
+    background-color:#eeeeee;
+    font-size:25px;
+    height:40px;
+
+}

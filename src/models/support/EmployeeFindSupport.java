@@ -22,7 +22,6 @@ public class EmployeeFindSupport {
         long employees_count = (long)em.createNamedQuery("getActiveEmployeesCount",Long.class)
                 .getSingleResult();
         em.close();
-        System.out.println(employees_count);
         return employees_count;
     }
 

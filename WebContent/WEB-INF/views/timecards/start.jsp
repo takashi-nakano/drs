@@ -28,7 +28,7 @@
             </table>
         </c:if>
         <form method="POST" action="<c:url value='/start' />">
-            <br /> <input type="hidden" name="_token" value="${_token}" />
+            <br /> <input class="btn"  type="hidden" name="_token" value="${_token}" />
             <button>勤務開始</button>
         </form>
     </c:param>

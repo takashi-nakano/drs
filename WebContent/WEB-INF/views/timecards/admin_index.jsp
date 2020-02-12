@@ -9,13 +9,13 @@
         <div class="select_month">
             <form action="<c:url value='/timecard/admin/index' />"
                 method="GET">
-                <select name="month">
+                <select class="select_month" name="month">
                     <c:forEach var="month_list" items="${month_list}">
                         <option value="${month_list.month_group}"
                             <c:if test="${month_list.month_group ==month_parameter}"> selected </c:if>><c:out
                                 value="${month_list.str_month}" />
                     </c:forEach>
-                </select> &nbsp; <input type="submit" value="表示">
+                </select> &nbsp; <input class="btn_select_month" class="btn_select_month" type="submit" value="表示">
             </form>
         </div>
 
@@ -36,7 +36,22 @@
                    </td>
                    <td><c:out value="${timecards.employee.name}" /></td>
                    <td><c:out value="${timecards.str_over_time}" /></td>
-                   <td><c:out value="${timecards.status}" /></td>
+            <c:choose>
+               <c:when test="${timecards.over_time_status>0.0 && timecards.over_time_status <= 1}" >
+                    <td class="normal"><c:out value="${timecards.status }"/></td>
+                </c:when>
+               <c:when test="${timecards.over_time_status < 2 && timecards.over_time_status > 1}" >
+                    <td class="coution"><c:out value="${timecards.status }"/></td>
+                </c:when>
+               <c:when test="${timecards.over_time_status >= 2}" >
+                   <td class="denger"><c:out value="${timecards.status }"/></td>
+                </c:when>
+                <c:otherwise>
+                   <td><c:out value="${timecards.status }"/></td>
+                </c:otherwise>
+
+            </c:choose>
+
                 </tr>
              </c:forEach>
         </table>

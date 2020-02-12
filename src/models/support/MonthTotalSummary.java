@@ -6,9 +6,10 @@ public class MonthTotalSummary {
     private Integer month_group;
 
     private String status;
-    private Integer total_over_time ;
+    private Integer total_over_time;
     private Integer total_actual_time;
     private Integer day_count;
+    private Double double_status;
 
     private String str_total_over_time;
     private String str_total_actual_time;
@@ -17,50 +18,26 @@ public class MonthTotalSummary {
 
     }
 
-    public MonthTotalSummary(Integer total_actual_time,Integer total_over_time,Integer day_count,Integer month_group) {
-        this.month_group=month_group;
+    public MonthTotalSummary(Integer total_actual_time, Integer total_over_time, Integer day_count,
+            Integer month_group) {
+        this.month_group = month_group;
         this.total_actual_time = total_actual_time;
         this.total_over_time = total_over_time;
-        this.day_count= day_count;
+        this.day_count = day_count;
 
     }
 
+    public void sumMonthTotalSummary() {
 
-
-    public void sumMonthTotalSummary(){
-
-        this.str_total_actual_time=TimecardSupport.secondToString(total_actual_time);
-        this.str_total_over_time=TimecardSupport.secondToString(total_over_time);
-
-        this.status=this.makeWorkStatus(MonthGroupSupport.getCurrentMonth_group());
-    }
-
-    public String makeWorkStatus(int currentMonth) {
-
-        double number = (double) (total_over_time / 60 / 60) / day_count;
-        if (month_group == currentMonth) {
-
-            if (number < 0) {
-                return "要確認";
-            } else if (number >= 0 && number < 0.5) {
-                return "順調";
-            } else if (number >= 0.5 && number < 1.0) {
-                return "注意";
-            } else if (number >= 1.0 && number < 1.5) {
-                return "警戒";
-            } else if (number >= 1.5 && number < 2.0) {
-                return "要対策";
-            } else {
-                return "危険";
-
-            }
+        this.str_total_actual_time = TimecardSupport.secondToString(total_actual_time);
+        this.str_total_over_time = TimecardSupport.secondToString(total_over_time);
+        if (day_count != 0) {
+            this.double_status = (total_over_time / 60 / 60.0) / day_count;
         } else {
-            if (number <= 1) {
-                return "達成";
-            } else {
-                return "不達成";
-            }
+            this.double_status = 0.0;
         }
+
+        this.status = WorkStatus.setWorkStatus(double_status, month_group);
     }
 
     public int getEmployee_id() {
@@ -125,5 +102,13 @@ public class MonthTotalSummary {
 
     public void setStr_total_actual_time(String str_total_actual_time) {
         this.str_total_actual_time = str_total_actual_time;
+    }
+
+    public Double getDouble_status() {
+        return double_status;
+    }
+
+    public void setDouble_status(Double double_status) {
+        this.double_status = double_status;
     }
 }

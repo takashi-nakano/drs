@@ -20,7 +20,7 @@ public class MonthList {
     private static String intMonthToString(Integer month_group) {
 
         if (month_group.equals(MonthGroupSupport.getCurrentMonth_group())) {
-            return "当月";
+            return " 当月 ";
         } else {
             String str_ym = Integer.toString(month_group);
 
