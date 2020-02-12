@@ -3,6 +3,9 @@ package models.support;
 public class WorkStatus {
 
     public static String setWorkStatus(Double double_status,int month_group) {
+        if(double_status.equals(null)){
+            return "データがありません";
+        }
 
         if (month_group == MonthGroupSupport.getCurrentMonth_group()) {
 

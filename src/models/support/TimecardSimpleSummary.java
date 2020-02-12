@@ -11,7 +11,7 @@ public class TimecardSimpleSummary {
     private Integer month_group;
 
     private Integer over_time;
-    private Double over_time_status;
+    private Double over_time_status = 0.0;
     private String str_over_time;
     private String status;
     private Integer day_count = 0;

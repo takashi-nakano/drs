@@ -15,4 +15,15 @@ public class EmployeeFindSupport {
         return e;
     }
 
+
+    public static long getActiveEmployeesCount(){
+        EntityManager em= DBUtil.createEntityManager();
+
+        long employees_count = (long)em.createNamedQuery("getActiveEmployeesCount",Long.class)
+                .getSingleResult();
+        em.close();
+        System.out.println(employees_count);
+        return employees_count;
+    }
+
 }

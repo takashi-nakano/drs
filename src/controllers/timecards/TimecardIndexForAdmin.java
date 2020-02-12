@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.MonthList;
+import models.support.EmployeeFindSupport;
 import models.support.MonthGroupSupport;
 import models.support.TimecardFindIndex;
 import models.support.TimecardSimpleSummary;
@@ -40,6 +41,11 @@ public class TimecardIndexForAdmin extends HttpServlet {
         long st = System.currentTimeMillis();
 
         Integer month;
+        int page = 1;
+
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
 
         if ((request.getParameter("month") != null)) {
             month = Integer.parseInt(request.getParameter("month"));
@@ -49,13 +55,17 @@ public class TimecardIndexForAdmin extends HttpServlet {
         }
 
         List<TimecardSimpleSummary> tss = new ArrayList<TimecardSimpleSummary>();
-        tss = TimecardFindIndex.findTimecardForAdmin(month);
+
+        tss = TimecardFindIndex.findTimecardForAdmin(month, page);
 
         List<MonthList> ml = WorkdayFindMonthGroup.getAllMonthList();
+        long employees_count = EmployeeFindSupport.getActiveEmployeesCount();
 
         request.setAttribute("month_list", ml);
         request.setAttribute("timecards", tss);
         request.setAttribute("month_parameter", month);
+        request.setAttribute("page", page);
+        request.setAttribute("employees_count", employees_count);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/admin_index.jsp");
         rd.forward(request, response);

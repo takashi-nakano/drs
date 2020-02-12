@@ -2,6 +2,7 @@ package models.support;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -75,18 +76,19 @@ public class TimecardFindIndex {
 
     }
 
-    public static List<TimecardSimpleSummary> findTimecardForAdmin(int month_group) {
+    public static List<TimecardSimpleSummary> findTimecardForAdmin(int month_group, int page) {
         EntityManager em = DBUtil.createEntityManager();
 
-        List<Employee> e_list = em.createNamedQuery("getActiveEmployee", Employee.class)
+        List<Employee> e_list = em.createNamedQuery("getActiveEmployees", Employee.class)
                 .getResultList();
 
         List<Workday> w_list = em.createNamedQuery("getWorkdays", Workday.class)
                 .setParameter("month_group", month_group)
                 .getResultList();
 
-        Iterator<Employee> itr_e = e_list.iterator();
+        int employee_count = e_list.size();
 
+        Iterator<Employee> itr_e = e_list.iterator();
 
         List<TimecardSimpleSummary> tss = new ArrayList<TimecardSimpleSummary>();
         while (itr_e.hasNext()) {
@@ -101,23 +103,32 @@ public class TimecardFindIndex {
 
                 try {
                     t = em.createNamedQuery("getSingleTimecard", Timecard.class)
-                            .setParameter("employee",employee_id)
+                            .setParameter("employee", employee_id)
                             .setParameter("day", day)
                             .getSingleResult();
 
                 } catch (NoResultException ex) {
                 }
-                if(t.getEnd_at()!=null){
+                if (t.getEnd_at() != null) {
                     ts.updateSummary(t);
                 }
 
-
             }
             tss.add(ts);
+
         }
         em.close();
 
-        return tss;
+        tss.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status).reversed());
+
+        int from = (15 * (page - 1));
+        int end = ((15 * page) - 1);
+        if (end > employee_count) {
+            end = employee_count ;
+        }
+        List<TimecardSimpleSummary> tss_sub = tss.subList(from, end);
+
+        return tss_sub;
     }
 
 }
