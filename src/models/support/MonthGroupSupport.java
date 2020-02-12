@@ -1,5 +1,6 @@
 package models.support;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 public class MonthGroupSupport {
@@ -37,6 +38,14 @@ public class MonthGroupSupport {
         Calendar date = Calendar.getInstance();
 
         return getThisMonth_group(date);
+    }
+
+    public static Integer getMonth_groupFromDate(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);;
+
+        return getThisMonth_group(cal);
+
     }
 
 }

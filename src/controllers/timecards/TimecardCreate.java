@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import dbsupport.CastSupport;
 import models.Employee;
 import models.Timecard;
+import models.support.MonthGroupSupport;
 import models.validators.TimecardValidators;
 import utils.DBUtil;
 
@@ -44,6 +45,9 @@ public class TimecardCreate extends HttpServlet {
 
             Employee e = (Employee)request.getSession().getAttribute("target_employee");
             Timecard t = new Timecard();
+            Boolean day_duplicate = true;
+            Boolean end_update_flag = false;
+
 
             t.setEmployee(e);
             try{
@@ -56,7 +60,7 @@ public class TimecardCreate extends HttpServlet {
             t.setRest_time(CastSupport.fromStrToTime(request.getParameter("rest_time")));
             t.setComent(request.getParameter("coment"));
 
-            List <String> errors = TimecardValidators.validate(t, true);
+            List <String> errors = TimecardValidators.validate(t, day_duplicate, end_update_flag);
 
             if(errors.size() > 0){
                 em.close();
@@ -76,7 +80,9 @@ public class TimecardCreate extends HttpServlet {
 
             request.getSession().removeAttribute("target_employee");
 
-            response.sendRedirect(request.getContextPath()+"/timecard/show?id="+t.getId());
+            int month_group = MonthGroupSupport.getMonth_groupFromDate(t.getTimecard_day());
+
+            response.sendRedirect(request.getContextPath() + "/timecard/index_personal?month="+month_group+"&id=" + t.getEmployee().getId());
 
 
         }

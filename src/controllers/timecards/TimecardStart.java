@@ -36,10 +36,21 @@ public class TimecardStart extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("_token",request.getSession().getId());
+
 
         EntityManager em = DBUtil.createEntityManager();
         Employee e =(Employee)request.getSession().getAttribute("login_employee");
+
+        Date today = new Date(System.currentTimeMillis());
+        long t_count = (long) em.createNamedQuery("checkTimecardDuplicate", Long.class)
+                .setParameter("employee", e.getId())
+                .setParameter("day", today)
+                .getSingleResult();
+        if(t_count!=0){
+            em.close();
+            request.getSession().setAttribute("flush", "本日はすでに出勤しました");
+            response.sendRedirect(request.getContextPath()+"/");
+        }else{
 
         List<Timecard> not_fin_timecards = em.createNamedQuery("getNotFinTimecards", Timecard.class)
                 .setParameter("employee", e)
@@ -50,9 +61,11 @@ public class TimecardStart extends HttpServlet {
         request.setAttribute("not_fin_timecards", not_fin_timecards);
         }
 
+        request.setAttribute("_token",request.getSession().getId());
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/start.jsp");
         rd.forward(request,response);
-
+        }
     }
 
     /**
