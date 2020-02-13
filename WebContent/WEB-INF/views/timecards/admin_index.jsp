@@ -19,12 +19,13 @@
             </form>
         </div>
 
-        <table>
+        <table class="timecard_admin">
             <tr>
                 <th>社員番号</th>
                 <th>名前</th>
                 <th>時間外労働</th>
                 <th>状況</th>
+                <th>休日出勤数</th>
             </tr>
 
             <c:forEach var="timecards" items="${timecards}" varStatus="status">
@@ -51,7 +52,9 @@
                 </c:otherwise>
 
             </c:choose>
+            <td><c:if test="${timecards.workday_count != 0}"><c:out value="${timecards.holiday_count}"/></c:if>
 
+            </td>
                 </tr>
              </c:forEach>
         </table>

@@ -21,17 +21,13 @@ public class TimecardFindIndex {
         EntityManager em = DBUtil.createEntityManager();
 
         List<TimecardSupport> tss = new ArrayList<TimecardSupport>();
-
-        List<Workday> days = em.createNamedQuery("getWorkdays", Workday.class)
-                .setParameter("month_group", month_group)
-                .getResultList();
-
-        Iterator<Workday> itr_days = days.iterator();
+        List<Date> days = MonthGroupSupport.getAlldayOfMonth(month_group);
+        Iterator<Date> itr_days = days.iterator();
 
         TimecardSupport.total_reset();
         while (itr_days.hasNext()) {
             Timecard t = new Timecard();
-            Date day = itr_days.next().getWorkday();
+            Date day = itr_days.next();
 
             try {
                 t = em.createNamedQuery("getSingleTimecard", Timecard.class)
@@ -43,11 +39,19 @@ public class TimecardFindIndex {
             }
             if (t.getId() != null) {
                 TimecardSupport ts = new TimecardSupport();
+                long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
+                        .setParameter("day", t.getTimecard_day())
+                        .getSingleResult();
 
                 ts.setTimecard(t);
+                if (day_check == 0) {
+                    ts.setHoliday_flag(true);
+                }
+
                 if (t.getEnd_at() != null) {
                     ts.timecardSummary();
                 }
+
                 tss.add(ts);
             }
 
@@ -86,6 +90,9 @@ public class TimecardFindIndex {
                 .setParameter("month_group", month_group)
                 .getResultList();
 
+        Date first_day = MonthGroupSupport.getFirstdayOfMonth(month_group);
+        Date end_day = MonthGroupSupport.getEnddayOfMonth(month_group);
+
         int employee_count = e_list.size();
 
         Iterator<Employee> itr_e = e_list.iterator();
@@ -114,6 +121,14 @@ public class TimecardFindIndex {
                 }
 
             }
+            long allday_count = (long) em.createNamedQuery("checkAllTimecardsOfMonth", Long.class)
+                    .setParameter("employee", e.getId())
+                    .setParameter("first_day", first_day)
+                    .setParameter("end_day", end_day)
+                    .getSingleResult();
+
+            ts.setHoliday_count((int) allday_count - ts.getWorkday_count());
+
             tss.add(ts);
 
         }
@@ -122,9 +137,9 @@ public class TimecardFindIndex {
         tss.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status).reversed());
 
         int from = (15 * (page - 1));
-        int end = ((15 * page) - 1);
+        int end = ((16 * page) - 1);
         if (end > employee_count) {
-            end = employee_count ;
+            end = employee_count;
         }
         List<TimecardSimpleSummary> tss_sub = tss.subList(from, end);
 

@@ -22,9 +22,12 @@
 
 
         </div>
-        <div class="month_index">
+
+        <div class="month_index workday">
+
+            <p>通常勤務日<p>
             <p>合計実働時間：<c:out value="${month_data.str_total_actual_time}"/></p>
-            <p>時間外労働時間：<c:out value="${month_data.str_total_over_time}"/> / <c:out value="${month_data.day_count}"/>:00 目標時間</p>
+            <p>時間外労働時間：<c:out value="${month_data.str_total_over_time}"/> / <c:out value="${month_data.workday_count}"/>:00 目標時間</p>
 
             <c:choose>
                <c:when test="${month_data.double_status>0.0 && month_data.double_status <= 1}" >
@@ -41,8 +44,18 @@
                 </c:otherwise>
 
             </c:choose>
-
          </div>
+
+        <c:if test="${month_data_holiday != null }">
+        <div class="month_index holiday">
+        <p>休日出勤</p>
+        <p>出勤数：<c:out value="${month_data_holiday.workday_count}" /></p>
+        <p>休日合計実働時間：<c:out value="${month_data_holiday.str_total_actual_time}" /></p>
+        <p>休日時間外労働時間：<c:out value="${month_data_holiday.str_total_over_time}" /></p>
+
+        </div>
+        </c:if>
+
 
         <table id="tamecard">
             <tr>
@@ -55,17 +68,21 @@
             </tr>
 
             <c:forEach var="timecards" items="${timecards}" varStatus="status">
-                <tr class="row${status.count%2}">
+                <tr class="row${status.count%2} <c:if test='${timecards.holiday_flag == true}' > holiday</c:if>" >
+
                     <td>
                         <a href="<c:url value='/timecard/show?id=${timecards.timecard.id}' />">
                         <fmt:formatDate value="${timecards.timecard.timecard_day}" pattern="MM/dd(E)" /></a>
                     </td>
                     <td><fmt:formatDate value="${timecards.timecard.start_at}" pattern="H:mm" /></td>
                     <td><fmt:formatDate value="${timecards.timecard.end_at}" pattern="H:mm" /></td>
-                    <td><c:out value="${timecards.actual_time}" /></td>
-                    <td><c:out value="${timecards.str_over_time}" /></td>
                     <td>
-                    <c:out value="${timecards.str_total_over_time}" />
+                    <c:if test="${timecards.holiday_flag == true}">休 </c:if><c:out value="${timecards.actual_time}" />
+                    </td>
+                    <td>
+                    <c:if test="${timecards.holiday_flag == true}">休 </c:if><c:out value="${timecards.str_over_time}" />
+                    </td>
+                    <td><c:if test="${timecards.holiday_flag == true}">休 </c:if><c:out value="${timecards.str_total_over_time}" />
                     </td>
 
 

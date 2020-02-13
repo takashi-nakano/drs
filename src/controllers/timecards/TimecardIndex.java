@@ -43,10 +43,10 @@ public class TimecardIndex extends HttpServlet {
 
         Employee e = new Employee();
 
-        if(request.getParameter("id")!=null){
+        if (request.getParameter("id") != null) {
             e = EmployeeFindSupport.singleEmployeeFind(Integer.parseInt(request.getParameter("id")));
 
-        }else{
+        } else {
             e = (Employee) request.getSession().getAttribute("login_employee");
         }
         Integer month;
@@ -60,20 +60,27 @@ public class TimecardIndex extends HttpServlet {
 
         List<TimecardSupport> tss = new ArrayList<TimecardSupport>();
         tss = TimecardFindIndex.findIndex(e.getId(), month);
-        MonthTotalSummary mts = new MonthTotalSummary(TimecardSupport.getTotal_actual_time(),
-                TimecardSupport.getTotal_over_time(), TimecardSupport.getDay_count(), month);
-        mts.sumMonthTotalSummary();
 
+        MonthTotalSummary workday_mts = new MonthTotalSummary(TimecardSupport.getTotal_actual_time(),
+                TimecardSupport.getTotal_over_time(), TimecardSupport.getWorkday_count(), month);
+        workday_mts.sumMonthTotalSummary();
+
+        if (TimecardSupport.getHoliday_count() != 0) {
+            MonthTotalSummary holiday_mts = new MonthTotalSummary(TimecardSupport.getHoliday_total_actulal_time(),
+                    TimecardSupport.getHoliday_total_over_time(), TimecardSupport.getHoliday_count(), month);
+            holiday_mts.sumMonthTotalSummary();
+            request.setAttribute("month_data_holiday", holiday_mts);
+        }
         List<MonthList> ml = new ArrayList<MonthList>();
 
-        if(e.getAdmin_flag()==1){
+        if (e.getAdmin_flag() == 1) {
             ml = WorkdayFindMonthGroup.getAllMonthList();
-        }else{
+        } else {
             ml = WorkdayFindMonthGroup.getOneYearMonthList();
         }
         request.setAttribute("target_employee", e);
         request.setAttribute("timecards", tss);
-        request.setAttribute("month_data", mts);
+        request.setAttribute("month_data", workday_mts);
         request.setAttribute("month_list", ml);
         request.setAttribute("month_parameter", month);
 

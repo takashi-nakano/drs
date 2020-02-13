@@ -14,7 +14,9 @@ public class TimecardSimpleSummary {
     private Double over_time_status = 0.0;
     private String str_over_time;
     private String status;
-    private Integer day_count = 0;
+    private Integer workday_count = 0;
+    private Integer holiday_count=0 ;
+
 
 
     public TimecardSimpleSummary() {
@@ -36,8 +38,8 @@ public class TimecardSimpleSummary {
 
         this.str_over_time=TimecardSupport.secondToString(over_time);
 
-        this.day_count++;
-        this.over_time_status = ((double) over_time / 60 / 60) / day_count;
+        this.workday_count++;
+        this.over_time_status = ((double) over_time / 60 / 60) / workday_count;
         this.status = WorkStatus.setWorkStatus(over_time_status, month_group);
     }
 
@@ -73,13 +75,6 @@ public class TimecardSimpleSummary {
         this.status = status;
     }
 
-    public Integer getDay_count() {
-        return day_count;
-    }
-
-    public void setDay_count(Integer day_count) {
-        this.day_count = day_count;
-    }
 
     public Integer getMonth_group() {
         return month_group;
@@ -95,6 +90,22 @@ public class TimecardSimpleSummary {
 
     public void setStr_over_time(String str_over_time) {
         this.str_over_time = str_over_time;
+    }
+
+    public Integer getWorkday_count() {
+        return workday_count;
+    }
+
+    public void setWorkday_count(Integer workday_count) {
+        this.workday_count = workday_count;
+    }
+
+    public Integer getHoliday_count() {
+        return holiday_count;
+    }
+
+    public void setHoliday_count(Integer holiday_count) {
+        this.holiday_count = holiday_count;
     }
 
 }

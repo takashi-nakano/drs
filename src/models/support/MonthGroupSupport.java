@@ -1,7 +1,9 @@
 package models.support;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MonthGroupSupport {
 
@@ -45,6 +47,56 @@ public class MonthGroupSupport {
         cal.setTime(date);;
 
         return getThisMonth_group(cal);
+
+    }
+
+    public static List<Date> getAlldayOfMonth(int month_group){
+        String str_mg = String.valueOf(month_group);
+        String str_yyyy=str_mg.substring(0,4);
+        String str_mm=str_mg.substring(4,6);
+
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        start.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-2,21);
+        end.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-1,21);
+
+        List<Date> allday_list = new ArrayList<Date>();
+
+        for (Calendar date = start; date.before(end); date.add(Calendar.DAY_OF_MONTH, 1)) {
+            Date date_date=new Date(date.getTime().getTime());
+
+            allday_list.add(date_date);
+
+
+        }
+
+        return allday_list;
+    }
+
+
+    public static Date getFirstdayOfMonth(int month_group) {
+        String str_mg = String.valueOf(month_group);
+        String str_yyyy=str_mg.substring(0,4);
+        String str_mm=str_mg.substring(4,6);
+
+        Calendar start = Calendar.getInstance();
+        start.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-2,21);
+
+        return new Date (start.getTime().getTime());
+    }
+
+
+    public static Date getEnddayOfMonth(int month_group) {
+        String str_mg = String.valueOf(month_group);
+        String str_yyyy=str_mg.substring(0,4);
+        String str_mm=str_mg.substring(4,6);
+
+        Calendar end = Calendar.getInstance();
+        end.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-1,21);
+
+        return new Date (end.getTime().getTime());
+
 
     }
 

@@ -169,11 +169,12 @@ h3 {
 
 div.month_index {
     font-size: 20px;
-    width: 500px;
-    background-color: #eee;
-    margin-bottom: 20px;
-    padding: 20px;
+    height: 200px;
+    width: 450px;
+    margin: 0 20px 20px 0;
+    padding: 10px 20px 20px 20px;
     border-radius: 10px;
+    float: left;
 }
 
 div.select_month {
@@ -190,30 +191,40 @@ input.btn_select_month {
     width: 80px;
 }
 
-
-div.status{
-    border-radius:10px;
-
-    width:140px;
-    height:50px;
-    font-size:35px;
-    text-align:center;
-    font-weight:bold;
-
+div.status {
+    border-radius: 10px;
+    width: 140px;
+    height: 50px;
+    font-size: 35px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.normal{
-    background-color:#00FF00;
+.normal {
+    background-color: #00FF00;
 }
-.coution{
-    background-color:#FFFF00;
-}
-.denger{
-    background-color:#FF0000;
-}
-div.minus{
-    background-color:#eeeeee;
-    font-size:25px;
-    height:40px;
 
+.coution {
+    background-color: #FFFF00;
 }
+
+.denger {
+    background-color: #FF0000;
+}
+
+div.minus {
+    background-color: #eeeeee;
+    font-size: 25px;
+    height: 40px;
+}
+
+div.holiday, tr.holiday {
+    background-color: #FFDBC9;
+}
+
+.workday {
+    background-color: #eee;;
+}
+
+
+

@@ -8,7 +8,7 @@ public class MonthTotalSummary {
     private String status;
     private Integer total_over_time;
     private Integer total_actual_time;
-    private Integer day_count;
+    private Integer workday_count;
     private Double double_status;
 
     private String str_total_over_time;
@@ -18,12 +18,19 @@ public class MonthTotalSummary {
 
     }
 
-    public MonthTotalSummary(Integer total_actual_time, Integer total_over_time, Integer day_count,
+    public MonthTotalSummary(Integer total_actual_time, Integer total_over_time, Integer workday_count,
             Integer month_group) {
         this.month_group = month_group;
         this.total_actual_time = total_actual_time;
         this.total_over_time = total_over_time;
-        this.day_count = day_count;
+        this.workday_count = workday_count;
+
+    }
+
+    public MonthTotalSummary(Integer holiday_total_actual_time,Integer holiday_count){
+        this.workday_count =  holiday_count;
+        this.total_actual_time=holiday_total_actual_time;
+        this.str_total_actual_time=TimecardSupport.secondToString(total_actual_time);
 
     }
 
@@ -31,8 +38,8 @@ public class MonthTotalSummary {
 
         this.str_total_actual_time = TimecardSupport.secondToString(total_actual_time);
         this.str_total_over_time = TimecardSupport.secondToString(total_over_time);
-        if (day_count != 0) {
-            this.double_status = (total_over_time / 60 / 60.0) / day_count;
+        if (workday_count != 0) {
+            this.double_status = (total_over_time / 60 / 60.0) / workday_count;
         } else {
             this.double_status = 0.0;
         }
@@ -80,13 +87,6 @@ public class MonthTotalSummary {
         this.total_actual_time = total_actual_time;
     }
 
-    public Integer getDay_count() {
-        return day_count;
-    }
-
-    public void setDay_count(Integer day_count) {
-        this.day_count = day_count;
-    }
 
     public String getStr_total_over_time() {
         return str_total_over_time;
@@ -110,5 +110,13 @@ public class MonthTotalSummary {
 
     public void setDouble_status(Double double_status) {
         this.double_status = double_status;
+    }
+
+    public Integer getWorkday_count() {
+        return workday_count;
+    }
+
+    public void setWorkday_count(Integer workday_count) {
+        this.workday_count = workday_count;
     }
 }

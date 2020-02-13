@@ -21,6 +21,7 @@ import javax.persistence.Table;
     @NamedQuery(name="getThisEmployeeTimecard",query="SELECT t FROM Timecard AS t WHERE t.employee =:employee ORDER BY t.timecard_day ASC"),
     @NamedQuery(name="getSingleTimecard",query="SELECT t FROM Timecard AS t WHERE t.employee.id =:employee AND t.timecard_day =:day"),
     @NamedQuery(name="checkTimecardDuplicate",query="SELECT count(t) FROM Timecard AS t WHERE t.employee.id =:employee AND t.timecard_day =:day"),
+    @NamedQuery(name="checkAllTimecardsOfMonth",query="SELECT count(t) FROM Timecard AS t WHERE t.employee.id =:employee AND t.timecard_day >=:first_day AND t.timecard_day <=:end_day AND t.end_at IS NOT NULL"),
 
 })
 @Entity

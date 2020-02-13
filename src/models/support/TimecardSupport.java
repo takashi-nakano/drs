@@ -14,35 +14,51 @@ public class TimecardSupport {
     private Integer over_time;
     private String str_over_time;
     private String str_total_over_time;
+    private boolean holiday_flag = false;
 
     private static Integer total_actual_time = 0;
     private static Integer total_over_time = 0;
-    private static Integer day_count = 0;
+    private static Integer workday_count = 0;
+    private static Integer holiday_count = 0;
+    private static Integer holiday_total_actulal_time = 0;
+    private static Integer holiday_total_over_time = 0;
 
     public TimecardSupport() {
 
     }
 
-    public static void total_reset(){
-        total_actual_time=0;
+    public static void total_reset() {
+        total_actual_time = 0;
         total_over_time = 0;
-        day_count = 0;
+        workday_count = 0;
+        holiday_count = 0;
+        holiday_total_actulal_time = 0;
+        holiday_total_over_time = 0;
+
     }
 
     public void timecardSummary() {
 
-        this.actual_time = sumActual_time(timecard);
-        this.over_time = sumOver_time(actual_time);
-        this.str_over_time = secondToString(over_time);
-        total_over_time = total_over_time + over_time;
-        total_actual_time = total_actual_time + actual_time.toSecondOfDay();
-        this.str_total_over_time = secondToString(total_over_time);
+        if (this.holiday_flag) {
+            this.actual_time = sumActual_time(timecard);
+            this.over_time = sumOver_time(actual_time);
+            this.str_over_time = secondToString(over_time);
+            holiday_total_over_time = holiday_total_over_time + over_time;
+            holiday_total_actulal_time = holiday_total_actulal_time + actual_time.toSecondOfDay();
+            this.str_total_over_time = secondToString(holiday_total_over_time);
+            holiday_count++;
+        } else {
 
+            this.actual_time = sumActual_time(timecard);
+            this.over_time = sumOver_time(actual_time);
+            this.str_over_time = secondToString(over_time);
+            total_over_time = total_over_time + over_time;
+            total_actual_time = total_actual_time + actual_time.toSecondOfDay();
+            this.str_total_over_time = secondToString(total_over_time);
 
-        day_count ++;
-
+            workday_count++;
+        }
     }
-
 
     public static LocalTime sumActual_time(Timecard timecard) {
 
@@ -51,7 +67,6 @@ public class TimecardSupport {
         LocalTime l_rt = timecard.getRest_time().toLocalTime();
 
         int second = l_et.toSecondOfDay() - l_st.toSecondOfDay() - l_rt.toSecondOfDay();
-
 
         return LocalTime.ofSecondOfDay(second);
 
@@ -153,11 +168,43 @@ public class TimecardSupport {
         TimecardSupport.total_actual_time = total_actual_time;
     }
 
-    public static Integer getDay_count() {
-        return day_count;
+    public boolean isHoliday_flag() {
+        return holiday_flag;
     }
 
-    public static void setDay_count(Integer day_count) {
-        TimecardSupport.day_count = day_count;
+    public void setHoliday_flag(boolean holiday_flag) {
+        this.holiday_flag = holiday_flag;
+    }
+
+    public static Integer getWorkday_count() {
+        return workday_count;
+    }
+
+    public static void setWorkday_count(Integer workday_count) {
+        TimecardSupport.workday_count = workday_count;
+    }
+
+    public static Integer getHoliday_count() {
+        return holiday_count;
+    }
+
+    public static void setHoliday_count(Integer holiday_count) {
+        TimecardSupport.holiday_count = holiday_count;
+    }
+
+    public static Integer getHoliday_total_actulal_time() {
+        return holiday_total_actulal_time;
+    }
+
+    public static void setHoliday_total_actulal_time(Integer holiday_total_actulal_time) {
+        TimecardSupport.holiday_total_actulal_time = holiday_total_actulal_time;
+    }
+
+    public static Integer getHoliday_total_over_time() {
+        return holiday_total_over_time;
+    }
+
+    public static void setHoliday_total_over_time(Integer holiday_total_over_time) {
+        TimecardSupport.holiday_total_over_time = holiday_total_over_time;
     }
 }
