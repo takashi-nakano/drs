@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -38,8 +38,18 @@
                     </tbody>
                 </table>
 
-                <p>
-                    <a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員の情報を編集する</a>
+
+
+                    <p>
+                    <a href="<c:url value='/timecard/index_personal?id=${employee.id}' />">この従業員のタイムカードを見る</a>
+                    </p>
+                    <c:if test="${login_employee.id != employee.id}" >
+                    <p>
+                    <a href="<c:url value='/timecard/admin/new?id=${employee.id}' />">この従業員のタイムカードを作成する</a>
+                    </p>
+                    </c:if>
+                    <br />
+                    <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員の情報を編集する</a>
                 </p>
             </c:when>
             <c:otherwise>

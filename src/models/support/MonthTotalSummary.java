@@ -27,13 +27,6 @@ public class MonthTotalSummary {
 
     }
 
-    public MonthTotalSummary(Integer holiday_total_actual_time,Integer holiday_count){
-        this.workday_count =  holiday_count;
-        this.total_actual_time=holiday_total_actual_time;
-        this.str_total_actual_time=TimecardSupport.secondToString(total_actual_time);
-
-    }
-
     public void sumMonthTotalSummary() {
 
         this.str_total_actual_time = TimecardSupport.secondToString(total_actual_time);

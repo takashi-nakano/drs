@@ -36,24 +36,22 @@ public class TimecardFindIndex {
                         .getSingleResult();
 
             } catch (NoResultException ex) {
+                continue;
             }
-            if (t.getId() != null) {
-                TimecardSupport ts = new TimecardSupport();
-                long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
-                        .setParameter("day", t.getTimecard_day())
-                        .getSingleResult();
+            TimecardSupport ts = new TimecardSupport();
+            ts.setTimecard(t);
+            long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
+                    .setParameter("day", t.getTimecard_day())
+                    .getSingleResult();
 
-                ts.setTimecard(t);
-                if (day_check == 0) {
-                    ts.setHoliday_flag(true);
-                }
-
-                if (t.getEnd_at() != null) {
-                    ts.timecardSummary();
-                }
-
-                tss.add(ts);
+            if (day_check == 0) {
+                ts.setHoliday_flag(true);
             }
+
+            if (t.getEnd_at() != null) {
+                ts.timecardSummary();
+            }
+            tss.add(ts);
 
         }
         em.close();
@@ -67,6 +65,7 @@ public class TimecardFindIndex {
 
         t = (Timecard) em.find(Timecard.class, id);
         if (Objects.isNull(t)) {
+            em.close();
             return null;
         }
         TimecardSupport ts = new TimecardSupport();
@@ -115,6 +114,7 @@ public class TimecardFindIndex {
                             .getSingleResult();
 
                 } catch (NoResultException ex) {
+                    continue;
                 }
                 if (t.getEnd_at() != null) {
                     ts.updateSummary(t);
@@ -137,7 +137,7 @@ public class TimecardFindIndex {
         tss.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status).reversed());
 
         int from = (15 * (page - 1));
-        int end = ((16 * page) - 1);
+        int end = ((16 * page) - page);
         if (end > employee_count) {
             end = employee_count;
         }

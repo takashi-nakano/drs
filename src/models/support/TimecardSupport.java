@@ -16,12 +16,12 @@ public class TimecardSupport {
     private String str_total_over_time;
     private boolean holiday_flag = false;
 
-    private static Integer total_actual_time = 0;
-    private static Integer total_over_time = 0;
-    private static Integer workday_count = 0;
-    private static Integer holiday_count = 0;
-    private static Integer holiday_total_actulal_time = 0;
-    private static Integer holiday_total_over_time = 0;
+    private static Integer total_actual_time ;
+    private static Integer total_over_time ;
+    private static Integer workday_count ;
+    private static Integer holiday_count ;
+    private static Integer holiday_total_actulal_time;
+    private static Integer holiday_total_over_time ;
 
     public TimecardSupport() {
 
