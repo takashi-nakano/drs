@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <th>実働時間</th>
-                        <td><c:out value="${timecard.actual_time}" /></td>
+                        <td><c:out value="${timecard.str_actual_time}" /></td>
                     </tr>
                     <tr>
                         <th>時間外労働</th>

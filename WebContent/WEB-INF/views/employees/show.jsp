@@ -41,7 +41,7 @@
 
 
                     <p>
-                    <a href="<c:url value='/timecard/index_personal?id=${employee.id}' />">この従業員のタイムカードを見る</a>
+                    <a href="<c:url value='/timecard/personal/index?id=${employee.id}' />">この従業員のタイムカードを見る</a>
                     </p>
                     <c:if test="${login_employee.id != employee.id}" >
                     <p>

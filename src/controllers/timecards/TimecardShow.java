@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.support.TimecardAdvance;
 import models.support.TimecardFindIndex;
-import models.support.TimecardSupport;
 
 /**
  * Servlet implementation class TimecardShow
@@ -35,9 +35,9 @@ public class TimecardShow extends HttpServlet {
 
         int timecard_id = Integer.valueOf(request.getParameter("id"));
 
-        TimecardSupport ts = TimecardFindIndex.findSingleTimecard(timecard_id);
+        TimecardAdvance ta = TimecardFindIndex.findSingleTimecard(timecard_id);
 
-        request.setAttribute("timecard", ts);
+        request.setAttribute("timecard", ta);
 
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/show.jsp");
