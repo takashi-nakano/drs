@@ -81,7 +81,7 @@ public class MonthGroupSupport {
         String str_mm=str_mg.substring(4,6);
 
         Calendar start = Calendar.getInstance();
-        start.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-2,21);
+        start.set(Integer.parseInt(str_yyyy),Integer.parseInt(str_mm)-2,20);
 
         return new Date (start.getTime().getTime());
     }

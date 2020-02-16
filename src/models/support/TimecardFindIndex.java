@@ -141,17 +141,10 @@ public class TimecardFindIndex {
                 if (day_check == 0) {
                     t_adv.setHoliday_flag(true);
 
-                    holiday_total.updateTotal(t_adv.getActual_time(), t_adv.getOver_time());
-                    t_adv.setTotal_actual_time(holiday_total.getTotal_actual_time());
-                    t_adv.setTotal_over_time(holiday_total.getTotal_over_time());
-                    t_adv.setStr_total_over_time(TimecardSupport.minutesToString(t_adv.getTotal_over_time()));
+                    holiday_total.updateTotal(t_adv);
 
                 } else {
-                    workday_total.updateTotal(t_adv.getActual_time(), t_adv.getOver_time());
-                    t_adv.setTotal_actual_time(workday_total.getTotal_actual_time());
-                    t_adv.setTotal_over_time(workday_total.getTotal_over_time());
-                    t_adv.setStr_total_over_time(TimecardSupport.minutesToString(t_adv.getTotal_over_time()));
-
+                    workday_total.updateTotal(t_adv);
                 }
             }
             tass.add(t_adv);

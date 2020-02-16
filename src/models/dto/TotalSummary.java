@@ -18,39 +18,10 @@ public class TotalSummary {
     private Double double_status = 0.0;
 
     public TotalSummary() {
-
     }
 
     public TotalSummary(Integer month_group) {
         this.month_group = month_group;
-    }
-
-    public void updateTimecard(TimecardAdvance t_adv) {
-
-        this.total_actual_time = t_adv.getTotal_actual_time();
-        this.total_over_time = t_adv.getTotal_over_time();
-
-        this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
-        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
-
-        this.day_count++;
-        if (!t_adv.getHoliday_flag()) {
-            this.double_status = (total_over_time / 60.0) / day_count; //  hour / 日数
-
-            this.status = WorkStatus.setWorkStatus(double_status, month_group);
-        }
-
-    }
-
-    public void updateTotal(Integer actual_time, Integer over_time) {
-
-        this.total_actual_time = total_actual_time + actual_time;
-        this.total_over_time = total_over_time + over_time;
-
-        this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
-        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
-
-        this.day_count++;
     }
 
     public void addStatus() {
@@ -59,6 +30,23 @@ public class TotalSummary {
         this.status = WorkStatus.setWorkStatus(double_status, month_group);
 
     }
+
+    public void updateTotal(TimecardAdvance t_adv) {
+
+        this.total_actual_time = total_actual_time +t_adv.getActual_time();
+        this.total_over_time = total_over_time + t_adv.getOver_time();
+
+        this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
+        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
+
+        this.day_count++;
+
+        t_adv.setTotal_actual_time(total_actual_time);
+        t_adv.setTotal_over_time(total_over_time);
+        t_adv.setStr_total_over_time(str_total_over_time);
+
+    }
+
 
     public void addTimecard(Timecard t) {
 
@@ -127,5 +115,6 @@ public class TotalSummary {
     public void setStr_total_over_time(String str_total_over_time) {
         this.str_total_over_time = str_total_over_time;
     }
+
 
 }

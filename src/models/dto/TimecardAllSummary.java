@@ -3,8 +3,6 @@ package models.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Timecard;
-
 public class TimecardAllSummary {
 
     private List<TimecardAdvance> timecard_advance;
@@ -15,7 +13,6 @@ public class TimecardAllSummary {
     private Integer month_group;
 
     public TimecardAllSummary() {
-
     }
 
     public TimecardAllSummary(Integer month_group) {
@@ -23,21 +20,6 @@ public class TimecardAllSummary {
         this.timecard_advance = new ArrayList<TimecardAdvance>();
         this.holiday_total = new TotalSummary(month_group);
         this.workday_total = new TotalSummary(month_group);
-    }
-
-    public void addTimecard(Timecard t, Boolean holiday_check) {
-        TimecardAdvance t_adv = new TimecardAdvance(t);
-        t_adv.setHoliday_flag(holiday_check);
-
-        if (t.getEnd_at() != null) {
-            t_adv.calcTimes();
-            if (holiday_check) {
-                holiday_total.updateTimecard(t_adv);
-            } else {
-                workday_total.updateTimecard(t_adv);
-            }
-        }
-        timecard_advance.add(t_adv);
     }
 
     public List<TimecardAdvance> getTimecard_advs() {
@@ -71,6 +53,5 @@ public class TimecardAllSummary {
     public void setMonth_group(Integer month_group) {
         this.month_group = month_group;
     }
-
 
 }
