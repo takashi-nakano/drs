@@ -16,7 +16,7 @@ import models.Workday;
 import utils.DBUtil;
 
 public class TimecardFindIndex {
-
+/*
     public static List<TimecardSupport> findIndex(int employee_id, int month_group) {
         EntityManager em = DBUtil.createEntityManager();
 
@@ -56,26 +56,6 @@ public class TimecardFindIndex {
         }
         em.close();
         return tss;
-
-    }
-
-/*    public static TimecardSupport findSingleTimecard(int id) {
-        EntityManager em = DBUtil.createEntityManager();
-        Timecard t = new Timecard();
-
-        t = (Timecard) em.find(Timecard.class, id);
-        if (Objects.isNull(t)) {
-            em.close();
-            return null;
-        }
-        TimecardSupport ts = new TimecardSupport();
-        ts.setTimecard(t);
-        if (t.getEnd_at() != null) {
-            ts.timecardSummary();
-        }
-        em.close();
-
-        return ts;
 
     }
 */
@@ -217,7 +197,7 @@ public class TimecardFindIndex {
             tass.add(t_adv);
         }
         tas.setTimecard_advs(tass);
-        workday_total.addStrings();
+        workday_total.addStatus();
 
         tas.setWorkday_total(workday_total);
         tas.setHoliday_total(holiday_total);
@@ -226,56 +206,5 @@ public class TimecardFindIndex {
         return tas;
     }
 
-    public static List<TimecardAdvance> findPersonalTimecardAdvance(Integer employee_id, Integer month) {
-        EntityManager em = DBUtil.createEntityManager();
-
-        List<TimecardAdvance> tas = new ArrayList<TimecardAdvance>();
-
-        List<Date> days = MonthGroupSupport.getAlldayOfMonth(month);
-        Iterator<Date> itr_days = days.iterator();
-        TotalSummary workday_total = new TotalSummary(month);
-        TotalSummary holiday_total = new TotalSummary(month);
-
-        while (itr_days.hasNext()) {
-            Timecard t = new Timecard();
-            Date day = itr_days.next();
-
-            try {
-                t = em.createNamedQuery("getSingleTimecard", Timecard.class)
-                        .setParameter("employee", employee_id)
-                        .setParameter("day", day)
-                        .getSingleResult();
-
-            } catch (NoResultException ex) {
-                continue;
-            }
-            long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
-                    .setParameter("day", t.getTimecard_day())
-                    .getSingleResult();
-
-            TimecardAdvance t_adv = new TimecardAdvance(t);
-            if (t.getEnd_at() != null) {
-                t_adv.calcTimes();
-                if (day_check == 0) {
-                    t_adv.setHoliday_flag(true);
-
-                    holiday_total.updateTotal(t_adv.getActual_time(), t_adv.getOver_time());
-                    t_adv.setTotal_actual_time(holiday_total.getTotal_actual_time());
-                    t_adv.setTotal_over_time(holiday_total.getTotal_over_time());
-
-                } else {
-                    workday_total.updateTotal(t_adv.getActual_time(), t_adv.getOver_time());
-                    t_adv.setTotal_actual_time(workday_total.getTotal_actual_time());
-                    t_adv.setTotal_over_time(workday_total.getTotal_over_time());
-
-                }
-
-            }
-            tas.add(t_adv);
-
-        }
-
-        return tas;
-    }
 
 }

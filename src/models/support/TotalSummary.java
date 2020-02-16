@@ -51,7 +51,7 @@ public class TotalSummary {
         this.day_count++;
     }
 
-    public void addStrings() {
+    public void addStatus() {
 
         this.double_status = (total_over_time / 60.0) / day_count; //  hour / 日数
         this.status = WorkStatus.setWorkStatus(double_status, month_group);

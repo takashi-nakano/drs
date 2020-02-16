@@ -11,7 +11,7 @@
         <form action="<c:url value='/timecard/personal/index' />" method="GET">
             <select class="select_month" name="month">
                 <c:forEach var="month_list" items="${month_list}">
-                    <option value="${month_list.month_group}" <c:if test="${month_list.month_group ==month_parameter}"> selected </c:if>><c:out value="${month_list.str_month}" />
+                    <option value="${month_list.month_group}" <c:if test="${month_list.month_group ==month_data.month_group}"> selected </c:if>><c:out value="${month_list.str_month}" />
                 </c:forEach>
             </select>
             &nbsp;
