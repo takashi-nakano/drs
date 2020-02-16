@@ -13,52 +13,13 @@ import javax.persistence.NoResultException;
 import models.Employee;
 import models.Timecard;
 import models.Workday;
+import models.dto.TimecardAdvance;
+import models.dto.TimecardAllSummary;
+import models.dto.TimecardSimpleSummary;
+import models.dto.TotalSummary;
 import utils.DBUtil;
 
 public class TimecardFindIndex {
-/*
-    public static List<TimecardSupport> findIndex(int employee_id, int month_group) {
-        EntityManager em = DBUtil.createEntityManager();
-
-        List<TimecardSupport> tss = new ArrayList<TimecardSupport>();
-        List<Date> days = MonthGroupSupport.getAlldayOfMonth(month_group);
-        Iterator<Date> itr_days = days.iterator();
-
-        TimecardSupport.total_reset();
-        while (itr_days.hasNext()) {
-            Timecard t = new Timecard();
-            Date day = itr_days.next();
-
-            try {
-                t = em.createNamedQuery("getSingleTimecard", Timecard.class)
-                        .setParameter("employee", employee_id)
-                        .setParameter("day", day)
-                        .getSingleResult();
-
-            } catch (NoResultException ex) {
-                continue;
-            }
-            TimecardSupport ts = new TimecardSupport();
-            ts.setTimecard(t);
-            long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
-                    .setParameter("day", t.getTimecard_day())
-                    .getSingleResult();
-
-            if (day_check == 0) {
-                ts.setHoliday_flag(true);
-            }
-
-            if (t.getEnd_at() != null) {
-                ts.timecardSummary();
-            }
-            tss.add(ts);
-
-        }
-        em.close();
-        return tss;
-
-    }
-*/
 
     public static TimecardAdvance findSingleTimecard(int id) {
         EntityManager em = DBUtil.createEntityManager();
@@ -78,7 +39,6 @@ public class TimecardFindIndex {
         return ta;
 
     }
-
 
     public static List<TimecardSimpleSummary> findTimecardForAdmin(int month_group, int page) {
         EntityManager em = DBUtil.createEntityManager();
@@ -197,7 +157,11 @@ public class TimecardFindIndex {
             tass.add(t_adv);
         }
         tas.setTimecard_advs(tass);
+        if(workday_total.getDay_count()!=0){
         workday_total.addStatus();
+        }else{
+           workday_total.setStatus("データなし");
+        }
 
         tas.setWorkday_total(workday_total);
         tas.setHoliday_total(holiday_total);
@@ -205,6 +169,5 @@ public class TimecardFindIndex {
         em.close();
         return tas;
     }
-
 
 }

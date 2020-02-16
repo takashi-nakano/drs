@@ -52,9 +52,9 @@ public class TimecardValidators {
 
     private static String _validateSum(Timecard t) {
         try {
-            LocalTime actual_time = TimecardSupport.sumActual_time(t);
-            if (actual_time.toSecondOfDay() < 60 * 10) {
-                return "勤務時間が10分未満です。入力値を確認してください";
+            Integer actual_time = TimecardSupport.sumActual_timeMinutes(t);
+            if (actual_time <  10) {
+                return "時間計算ができないか、勤務時間が10分未満です。入力値を確認してください";
 
             } else {
                 return "";

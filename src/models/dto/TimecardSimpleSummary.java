@@ -1,9 +1,9 @@
-package models.support;
-
-import java.time.LocalTime;
+package models.dto;
 
 import models.Employee;
 import models.Timecard;
+import models.support.TimecardSupport;
+import models.support.WorkStatus;
 
 public class TimecardSimpleSummary {
 
@@ -29,17 +29,17 @@ public class TimecardSimpleSummary {
     }
 
     public void updateSummary(Timecard timecard) {
-        LocalTime oneday_at=TimecardSupport.sumActual_time(timecard);
+        Integer oneday_at=TimecardSupport.sumActual_timeMinutes(timecard);
         if(this.over_time==null){
-            this.over_time=TimecardSupport.sumOver_time(oneday_at);
+            this.over_time=TimecardSupport.sumOver_timeMinutes(oneday_at);
         }else{
-            this.over_time=over_time+TimecardSupport.sumOver_time(oneday_at);
+            this.over_time=over_time+TimecardSupport.sumOver_timeMinutes(oneday_at);
         }
 
-        this.str_over_time=TimecardSupport.secondToString(over_time);
+        this.str_over_time=TimecardSupport.minutesToString(over_time);
 
         this.workday_count++;
-        this.over_time_status = ((double) over_time / 60 / 60) / workday_count;
+        this.over_time_status = ((double) over_time / 60 ) / workday_count;
         this.status = WorkStatus.setWorkStatus(over_time_status, month_group);
     }
 

@@ -1,4 +1,4 @@
-package models.support;
+package dbsupport;
 
 import java.sql.Date;
 import java.sql.Time;

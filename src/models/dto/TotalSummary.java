@@ -1,6 +1,8 @@
-package models.support;
+package models.dto;
 
 import models.Timecard;
+import models.support.TimecardSupport;
+import models.support.WorkStatus;
 
 public class TotalSummary {
     private Integer month_group;
@@ -28,8 +30,8 @@ public class TotalSummary {
         this.total_actual_time = t_adv.getTotal_actual_time();
         this.total_over_time = t_adv.getTotal_over_time();
 
-        this.str_total_actual_time=TimecardSupport.minutesToString(total_actual_time);
-        this.str_total_over_time=TimecardSupport.minutesToString(total_over_time);
+        this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
+        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
 
         this.day_count++;
         if (!t_adv.getHoliday_flag()) {
@@ -45,8 +47,8 @@ public class TotalSummary {
         this.total_actual_time = total_actual_time + actual_time;
         this.total_over_time = total_over_time + over_time;
 
-        this.str_total_actual_time=TimecardSupport.minutesToString(total_actual_time);
-        this.str_total_over_time= TimecardSupport.minutesToString(total_over_time);
+        this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
+        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
 
         this.day_count++;
     }
@@ -125,7 +127,5 @@ public class TotalSummary {
     public void setStr_total_over_time(String str_total_over_time) {
         this.str_total_over_time = str_total_over_time;
     }
-
-
 
 }

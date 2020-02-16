@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import models.MonthList;
+import models.dto.MonthList;
 import utils.DBUtil;
 
 public class WorkdayFindMonthGroup {

@@ -1,6 +1,7 @@
-package models.support;
+package models.dto;
 
 import models.Timecard;
+import models.support.TimecardSupport;
 
 public class TimecardAdvance {
     private Timecard timecard;

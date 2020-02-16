@@ -34,7 +34,7 @@ public class TimecardEndNew extends HttpServlet {
 
         Timecard t = (Timecard)request.getSession().getAttribute("today_timecard");
 
-        request.getSession().setAttribute("_token", request.getSession().getId());
+        request.setAttribute("_token", request.getSession().getId());
         request.setAttribute("now",new Time(System.currentTimeMillis()));
         request.getSession().setAttribute("timecard_id",t.getId());
 

@@ -1,4 +1,4 @@
-package models.support;
+package models.dto;
 
 import java.util.ArrayList;
 import java.util.List;

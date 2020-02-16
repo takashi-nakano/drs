@@ -31,18 +31,18 @@
 
 
              <c:choose>
+             <c:when test="${month_data.workday_total.double_status <= 0.0}" >
+                <div class="status minus"><c:out value="${month_data.workday_total.status }"/></div>
+                </c:when>
                <c:when test="${month_data.workday_total.double_status>0.0 && month_data.workday_total.double_status <= 1}" >
                 <div class="status normal"><c:out value="${month_data.workday_total.status }"/></div>
                 </c:when>
-               <c:when test="${month_data.workday_total.double_status < 2 && month_data.workday_total.double_status > 1}" >
+               <c:when test="${month_data.workday_total.double_status < 2 }" >
                 <div class="status coution"><c:out value="${month_data.workday_total.status }"/></div>
                 </c:when>
                <c:when test="${month_data.workday_total.double_status >= 2}" >
                 <div class="status denger"><c:out value="${month_data.workday_total.status }"/></div>
                 </c:when>
-                <c:otherwise>
-                <div class="status minus"><c:out value="${month_data.workday_total.status }"/></div>
-                </c:otherwise>
 
             </c:choose>
           </div>

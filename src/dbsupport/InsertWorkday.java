@@ -1,4 +1,4 @@
-package models.support;
+package dbsupport;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -6,6 +6,7 @@ import java.util.Calendar;
 import javax.persistence.EntityManager;
 
 import models.Workday;
+import models.support.MonthGroupSupport;
 import utils.DBUtil;
 
 public class InsertWorkday {

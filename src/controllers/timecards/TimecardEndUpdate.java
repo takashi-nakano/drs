@@ -41,7 +41,6 @@ public class TimecardEndUpdate extends HttpServlet {
             EntityManager em = DBUtil.createEntityManager();
 
             Timecard t = em.find(Timecard.class, (Integer)request.getSession().getAttribute("timecard_id"));
-            System.out.println(t.getStart_at());
 
             t.setEnd_at(new Time(System.currentTimeMillis()));
             t.setRest_time(CastSupport.fromStrToTime((String)request.getParameter("rest_time")));
