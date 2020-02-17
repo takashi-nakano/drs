@@ -150,10 +150,10 @@ public class TimecardFindIndex {
             tass.add(t_adv);
         }
         tas.setTimecard_advs(tass);
-        if(workday_total.getDay_count()!=0){
-        workday_total.addStatus();
-        }else{
-           workday_total.setStatus("データなし");
+        if (workday_total.getDay_count() != 0) {
+            workday_total.addStatus();
+        } else {
+            workday_total.setStatus("データなし");
         }
 
         tas.setWorkday_total(workday_total);
