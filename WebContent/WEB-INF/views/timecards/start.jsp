@@ -31,5 +31,7 @@
             <br /> <input class="btn"  type="hidden" name="_token" value="${_token}" />
             <button>勤務開始</button>
         </form>
+    <br />
+        <a href="<c:url value='/' />">打刻せずにトップページに戻る</a>
     </c:param>
 </c:import>

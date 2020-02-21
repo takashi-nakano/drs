@@ -38,39 +38,36 @@ public class TimecardPersonalIndex extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         Employee e = new Employee();
 
         if (request.getParameter("id") != null) {
             e = EmployeeFindSupport.singleEmployeeFind(Integer.parseInt(request.getParameter("id")));
-
         } else {
             e = (Employee) request.getSession().getAttribute("login_employee");
         }
-        Integer month;
 
-        if ((request.getParameter("month") != null)) {
+        Integer month;
+        if (request.getParameter("month") != null) {
             month = Integer.parseInt(request.getParameter("month"));
         } else {
-
             month = MonthGroupSupport.getCurrentMonth_group();
         }
 
-        List <TimecardAdvance> tass = new ArrayList<TimecardAdvance>();
-
-        TimecardAllSummary tas= new TimecardAllSummary();
+        TimecardAllSummary tas = new TimecardAllSummary();
         tas = TimecardFindIndex.findPersonalIndex(e.getId(), month);
-        tass=(List<TimecardAdvance>)tas.getTimecard_advs();
-
+        List<TimecardAdvance> tass = new ArrayList<TimecardAdvance>();
+        tass = (List<TimecardAdvance>) tas.getTimecard_advs();
 
         List<MonthList> ml = new ArrayList<MonthList>();
-
         if (e.getAdmin_flag() == 1) {
             ml = WorkdayFindMonthGroup.getAllMonthList();
         } else {
             ml = WorkdayFindMonthGroup.getOneYearMonthList();
         }
+
         request.setAttribute("target_employee", e);
         request.setAttribute("month_data", tas);
         request.setAttribute("timecards", tass);
@@ -81,5 +78,4 @@ public class TimecardPersonalIndex extends HttpServlet {
 
     }
 
-    }
-
+}

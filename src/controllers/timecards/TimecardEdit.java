@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Employee;
 import models.Timecard;
+import models.support.MonthGroupSupport;
 import utils.DBUtil;
 
 /**
@@ -38,20 +38,14 @@ public class TimecardEdit extends HttpServlet {
         int timecard_id = Integer.valueOf(request.getParameter("id"));
 
         Timecard t = (Timecard) em.find(Timecard.class, timecard_id);
-        int target_e_id = t.getEmployee().getId();
-        Employee login_e = (Employee) request.getSession().getAttribute("login_employee");
+        int month = MonthGroupSupport.getMonth_groupFromDate(t.getTimecard_day());
 
-        if (target_e_id == login_e.getId()) {
-            response.sendRedirect(request.getContextPath() + "/");
+        request.setAttribute("timecard", t);
+        request.setAttribute("month", month);
+        request.getSession().setAttribute("timecard_id", t.getId());
+        request.setAttribute("_token", request.getSession().getId());
 
-        } else {
-
-            request.setAttribute("timecard", t);
-            request.getSession().setAttribute("timecard_id", t.getId());
-            request.getSession().setAttribute("_token", request.getSession().getId());
-
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/edit.jsp");
-            rd.forward(request, response);
-        }
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/edit.jsp");
+        rd.forward(request, response);
     }
 }

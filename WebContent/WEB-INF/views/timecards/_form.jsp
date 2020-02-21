@@ -11,6 +11,16 @@
     </div>
 </c:if>
 
+<c:choose>
+<c:when test="${sessionScope.login_employee.id == timecard.employee.id }" >
+    <h3>自分自身のタイムカードは操作できません</h3>
+    <br />
+    <a href="<c:url value='/' />">トップページに戻る</a>
+</c:when>
+
+<c:otherwise>
+<h3>${timecard.employee.name}さんの月別集計</h3>
+<br />
 <div id="day">
     <label>日付：</label> <input type="date" name="timecard_day" value="<fmt:formatDate value='${timecard.timecard_day}' pattern='yyyy-MM-dd' />" />
 </div>
@@ -38,3 +48,14 @@
 
 <br />
 <input type="hidden" name="_token" value="${_token}" />
+
+<c:if test="${month == null }">
+<br />
+ <a href="<c:url value='/timecard/personal/index?id=${timecard.employee.id}'/>">${timecard.employee.name}さんのタイムカード一覧を見る</a>
+</c:if>
+    <c:if test="${month != null}" >
+     <br />
+    <a href="<c:url value='/timecard/personal/index?id=${timecard.employee.id }&month=${month}'/>">${timecard.employee.name}さんのこの月のタイムカード一覧に戻る</a>
+    </c:if>
+</c:otherwise>
+</c:choose>

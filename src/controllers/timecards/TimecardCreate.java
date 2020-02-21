@@ -80,9 +80,9 @@ public class TimecardCreate extends HttpServlet {
 
             request.getSession().removeAttribute("target_employee");
 
-            int month_group = MonthGroupSupport.getMonth_groupFromDate(t.getTimecard_day());
+            int month = MonthGroupSupport.getMonth_groupFromDate(t.getTimecard_day());
 
-            response.sendRedirect(request.getContextPath() + "/timecard/personal/index?month="+month_group+"&id=" + t.getEmployee().getId());
+            response.sendRedirect(request.getContextPath() + "/timecard/personal/index?month="+month+"&id=" + t.getEmployee().getId());
 
 
         }

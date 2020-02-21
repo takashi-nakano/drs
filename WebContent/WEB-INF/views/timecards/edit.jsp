@@ -7,7 +7,5 @@
         <form method="POST" action="<c:url value='/timecard/admin/update' />">
         <c:import url="/WEB-INF/views/timecards/_form.jsp" />
         </form>
-
-
     </c:param>
 </c:import>

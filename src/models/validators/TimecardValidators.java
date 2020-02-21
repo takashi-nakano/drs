@@ -27,7 +27,7 @@ public class TimecardValidators {
             errors.add(et_error);
         }
 
-        String rt_error = _validateRt(t.getRest_time());
+        String rt_error = _validateRt(t);
         if (!rt_error.equals("")) {
             errors.add(rt_error);
         }
@@ -53,7 +53,7 @@ public class TimecardValidators {
     private static String _validateSum(Timecard t) {
         try {
             Integer actual_time = TimecardSupport.sumActual_timeMinutes(t);
-            if (actual_time <  10) {
+            if (actual_time < 10) {
                 return "時間計算ができないか、勤務時間が10分未満です。入力値を確認してください";
 
             } else {
@@ -65,9 +65,15 @@ public class TimecardValidators {
         }
     }
 
-    private static String _validateRt(Time rest_time) {
-        if (rest_time == null || rest_time.equals("")) {
+    private static String _validateRt(Timecard t) {
+        if (t.getRest_time() == null || t.getRest_time().equals("")) {
             return "休憩時間を入力してください";
+        } else {
+            LocalTime l_rt = t.getRest_time().toLocalTime();
+            int rt_second = l_rt.toSecondOfDay();
+            if (t.getComent() == null || t.getComent().equals("") && rt_second > 90 * 60) {
+                return "備考欄に休憩理由を入力してください";
+            }
         }
         return "";
     }

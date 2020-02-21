@@ -7,9 +7,11 @@
         <c:choose>
             <c:when test="${timecard.timecard.id==null}">
                 <h3>このタイムカードは存在しません</h3>
+                <a href="<c:url value='/' />">トップページに戻る</a>
             </c:when>
             <c:when test="${sessionScope.login_employee.admin_flag == 0 and sessionScope.login_employee.id != timecard.timecard.employee.id}">
                 <h3>このタイムカードは閲覧できません</h3>
+                <a href="<c:url value='/' />">トップページに戻る</a>
             </c:when>
             <c:otherwise>
                 <h3>${timecard.timecard.employee.name }さん<br />
@@ -47,9 +49,12 @@
                         <td><c:out value="${timecard.timecard.coment}" /></td>
                     </tr>
                 </table>
-                <c:if test="${sessionScope.login_employee.admin_flag == 1 and sessionScope.login_employee.id != timecard.timecard.employee.id}">
+                <br />
+                <c:if test="${sessionScope.login_employee.id != timecard.timecard.employee.id}">
                 <a href="<c:url value='/timecard/admin/edit?id=${timecard.timecard.id}' />" >このタイムカードを修正する</a>
                 </c:if>
+                <br /><br />
+                <a href="<c:url value='/timecard/personal/index?id=${timecard.timecard.employee.id}&month=${month}' />">${timecard.timecard.employee.name}さんのタイムカード一覧に戻る</a>
 
             </c:otherwise>
         </c:choose>

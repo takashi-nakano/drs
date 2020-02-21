@@ -43,5 +43,8 @@
             <br />
             <input type="hidden" name="_token" value="${_token}" />
             </form>
+
+    <br />
+    <a href="<c:url value='/' />">打刻せずにトップページに戻る</a>
     </c:param>
 </c:import>

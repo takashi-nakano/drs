@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.dto.TimecardAdvance;
+import models.support.MonthGroupSupport;
 import models.support.TimecardFindIndex;
 
 /**
@@ -36,8 +37,10 @@ public class TimecardShow extends HttpServlet {
         int timecard_id = Integer.valueOf(request.getParameter("id"));
 
         TimecardAdvance ta = TimecardFindIndex.findSingleTimecard(timecard_id);
+        Integer month = MonthGroupSupport.getMonth_groupFromDate(ta.getTimecard().getTimecard_day());
 
         request.setAttribute("timecard", ta);
+        request.setAttribute("month", month);
 
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/show.jsp");

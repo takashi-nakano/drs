@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Timecard;
 import models.support.EmployeeFindSupport;
 
 /**
@@ -35,18 +36,15 @@ public class TimecardNew extends HttpServlet {
 
         int employee_id = Integer.parseInt(request.getParameter("id"));
         Employee target_e = EmployeeFindSupport.singleEmployeeFind(employee_id);
-        Employee login_e = (Employee) request.getSession().getAttribute("login_employee");
+        Timecard t = new Timecard();
+        t.setEmployee(target_e);
 
-        if (target_e.getId() == login_e.getId()) {
-            response.sendRedirect(request.getContextPath() + "/");
-        } else {
+        request.setAttribute("timecard", t);
+        request.setAttribute("_token", request.getSession().getId());
+        request.getSession().setAttribute("target_employee", target_e);
 
-            request.setAttribute("_token", request.getSession().getId());
-            request.getSession().setAttribute("target_employee", target_e);
-
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/new.jsp");
-            rd.forward(request, response);
-        }
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/new.jsp");
+        rd.forward(request, response);
     }
 
 }

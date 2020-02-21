@@ -11,7 +11,7 @@
         <form action="<c:url value='/timecard/personal/index' />" method="GET">
             <select class="select_month" name="month">
                 <c:forEach var="month_list" items="${month_list}">
-                    <option value="${month_list.month_group}" <c:if test="${month_list.month_group ==month_data.month_group}"> selected </c:if>><c:out value="${month_list.str_month}" />
+                    <option value="${month_list.month_group}" <c:if test="${month_list.month_group == month_data.month_group}"> selected </c:if>><c:out value="${month_list.str_month}" />
                 </c:forEach>
             </select>
             &nbsp;
@@ -92,7 +92,12 @@
         </table>
         <br />
         <c:if test="${login_employee.admin_flag == 1 and login_employee.id != target_employee.id}">
-            <a href="<c:url value='/timecard/admin/new?id=${target_employee.id}' />">この従業員のタイムカードを作成する</a>
+            <a href="<c:url value='/timecard/admin/new?id=${target_employee.id}' />">${target_employee.name}さんのタイムカードを作成する</a>
+        <br /><br />
+        </c:if>
+        <c:if test="${login_employee.admin_flag == 1 }" >
+            <a href="<c:url value='/timecard/admin/index?month=${month_data.month_group }' />">この月の全従業員の勤退一覧を見る</a>
         </c:if>
     </c:param>
 </c:import>
+
