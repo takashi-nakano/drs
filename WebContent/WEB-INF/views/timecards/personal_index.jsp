@@ -22,7 +22,10 @@
 
 
         </div>
-
+        <c:choose>
+        <c:when test="${timecards ==null }"><h3>出勤記録がありません</h3></c:when>
+        <c:otherwise>
+        <c:if test="${month_data.workday_total.day_count != 0 }">
         <div class="month_index workday">
 
             <p>通常勤務日<p>
@@ -31,10 +34,10 @@
 
 
              <c:choose>
-             <c:when test="${month_data.workday_total.double_status <= 0.0}" >
+             <c:when test="${month_data.workday_total.double_status < 0.0}" >
                 <div class="status minus"><c:out value="${month_data.workday_total.status }"/></div>
                 </c:when>
-               <c:when test="${month_data.workday_total.double_status>0.0 && month_data.workday_total.double_status <= 1}" >
+               <c:when test="${month_data.workday_total.double_status>=0.0 && month_data.workday_total.double_status <= 1}" >
                 <div class="status normal"><c:out value="${month_data.workday_total.status }"/></div>
                 </c:when>
                <c:when test="${month_data.workday_total.double_status < 2 }" >
@@ -46,16 +49,16 @@
 
             </c:choose>
           </div>
+          </c:if>
         <c:if test="${month_data.holiday_total.day_count != 0 }">
         <div class="month_index holiday">
         <p>休日出勤</p>
         <p>出勤数：<c:out value="${month_data.holiday_total.day_count}" /></p>
         <p>休日合計実働時間：<c:out value="${month_data.holiday_total.str_total_actual_time}" /></p>
-        <p>休日時間外労働時間：<c:out value="${month_data.holiday_total.str_total_over_time}" /></p>
+        <p>全出勤日合計時間外労働時間：<c:out value="${month_data.holiday_total.str_total_over_time}" /></p>
 
         </div>
          </c:if>
-
 
         <table id="tamecard">
             <tr>
@@ -85,11 +88,11 @@
                     <td><c:if test="${timecards.holiday_flag == true}">休 </c:if><c:out value="${timecards.str_total_over_time}" />
                     </td>
 
-
-
                 </tr>
             </c:forEach>
         </table>
+        </c:otherwise>
+        </c:choose>
         <br />
         <c:if test="${login_employee.admin_flag == 1 and login_employee.id != target_employee.id}">
             <a href="<c:url value='/timecard/admin/new?id=${target_employee.id}' />">${target_employee.name}さんのタイムカードを作成する</a>

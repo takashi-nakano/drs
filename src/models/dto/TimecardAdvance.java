@@ -12,7 +12,7 @@ public class TimecardAdvance {
     private String str_actual_time;
     private String str_over_time;
 
-    private Integer total_actual_time ;
+    private Integer total_actual_time;
     private Integer total_over_time;
     private String str_total_over_time;
 
@@ -26,11 +26,19 @@ public class TimecardAdvance {
         this.timecard = t;
     }
 
-    public void calcTimes() {
+    public void holidayCalc() {
+        this.actual_time = TimecardSupport.sumActual_timeMinutes(timecard);
+        this.over_time = actual_time;
+        this.str_actual_time = TimecardSupport.minutesToString(actual_time);
+        this.str_over_time = str_actual_time;
+
+    }
+
+    public void workdayCalc() {
         this.actual_time = TimecardSupport.sumActual_timeMinutes(timecard);
         this.over_time = TimecardSupport.sumOver_timeMinutes(actual_time);
-        this.str_actual_time=TimecardSupport.minutesToString(actual_time);
-        this.str_over_time=TimecardSupport.minutesToString(over_time);
+        this.str_actual_time = TimecardSupport.minutesToString(actual_time);
+        this.str_over_time = TimecardSupport.minutesToString(over_time);
     }
 
     public Timecard getTimecard() {
@@ -104,6 +112,5 @@ public class TimecardAdvance {
     public void setStr_total_over_time(String str_total_over_time) {
         this.str_total_over_time = str_total_over_time;
     }
-
 
 }

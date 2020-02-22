@@ -38,7 +38,7 @@ public class TimecardIndexForAdmin extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        long st = System.currentTimeMillis();
+        long st = System.currentTimeMillis();       //パフォーマンス測定用
 
         Integer month;
         int page = 1;
@@ -50,7 +50,6 @@ public class TimecardIndexForAdmin extends HttpServlet {
         if ((request.getParameter("month") != null)) {
             month = Integer.parseInt(request.getParameter("month"));
         } else {
-
             month = MonthGroupSupport.getCurrentMonth_group();
         }
 
@@ -70,7 +69,7 @@ public class TimecardIndexForAdmin extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/admin_index.jsp");
         rd.forward(request, response);
 
-        System.out.println(((long) System.currentTimeMillis() - st) + "ミリ秒");
+        System.out.println(((long) System.currentTimeMillis() - st) + "ミリ秒");    //処理時間をミリ秒で出力
 
     }
 

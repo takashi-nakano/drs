@@ -23,7 +23,7 @@
             <tr>
                 <th>社員番号</th>
                 <th>名前</th>
-                <th>時間外労働</th>
+                <th>出勤日時間外労働</th>
                 <th>状況</th>
                 <th>休日出勤数</th>
             </tr>
@@ -38,7 +38,7 @@
                    <td><c:out value="${timecards.employee.name}" /></td>
                    <td><c:out value="${timecards.str_over_time}" /></td>
             <c:choose>
-               <c:when test="${timecards.over_time_status>0.0 && timecards.over_time_status <= 1}" >
+               <c:when test="${timecards.workday_count!=0 && timecards.over_time_status>=0.0 && timecards.over_time_status <= 1}" >
                     <td class="normal"><c:out value="${timecards.status }"/></td>
                 </c:when>
                <c:when test="${timecards.over_time_status < 2 && timecards.over_time_status > 1}" >

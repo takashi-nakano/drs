@@ -14,12 +14,13 @@
                 <a href="<c:url value='/' />">トップページに戻る</a>
             </c:when>
             <c:otherwise>
+            <div class="day_info <c:if test="${timecard.holiday_flag == true}" > holiday </c:if>" >
                 <h3>${timecard.timecard.employee.name }さん<br />
                     <fmt:formatDate value="${timecard.timecard.timecard_day}"
-                        pattern="MM/dd (E)" />
+                        pattern="MM/dd (E)" /><c:if test="${timecard.holiday_flag == true}" >　休業日　</c:if>
                     の勤務記録
-                </h3><br />
-
+                </h3>
+                </div>
                 <table>
                     <tr>
                         <th>始業時間</th>
@@ -38,15 +39,15 @@
                     </tr>
                     <tr>
                         <th>実働時間</th>
-                        <td><c:out value="${timecard.str_actual_time}" /></td>
+                        <td><c:if test="${timecard.holiday_flag == true}" >休業日：</c:if><c:out value="${timecard.str_actual_time}" /></td>
                     </tr>
                     <tr>
                         <th>時間外労働</th>
-                        <td><c:out value="${timecard.str_over_time}" /></td>
+                        <td><c:if test="${timecard.holiday_flag == true}" >休業日：</c:if><c:out value="${timecard.str_over_time}" /></td>
                     </tr>
                     <tr>
                         <th>備考</th>
-                        <td><c:out value="${timecard.timecard.coment}" /></td>
+                        <td><c:if test="${timecard.holiday_flag == true}" >休業日：</c:if><c:out value="${timecard.timecard.coment}" /></td>
                     </tr>
                 </table>
                 <br />

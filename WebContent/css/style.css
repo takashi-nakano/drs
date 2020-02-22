@@ -226,5 +226,10 @@ div.holiday, tr.holiday {
     background-color: #eee;;
 }
 
-
+div.day_info {
+    width: 24%;
+    padding: 10px 2%;
+    margin:0px 0px 4px;
+    border-radius:10px;
+}
 

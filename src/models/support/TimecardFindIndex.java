@@ -30,9 +30,16 @@ public class TimecardFindIndex {
             em.close();
             return null;
         }
+
         TimecardAdvance ta = new TimecardAdvance(t);
+        WorkdaySupport.holidayCheckAndAddFlag(ta);
+
         if (t.getEnd_at() != null) {
-            ta.calcTimes();
+            if (ta.getHoliday_flag()) {
+                ta.holidayCalc();
+            } else {
+                ta.workdayCalc();
+            }
         }
         em.close();
 
@@ -57,7 +64,7 @@ public class TimecardFindIndex {
 
         Iterator<Employee> itr_e = e_list.iterator();
 
-        List<TimecardSimpleSummary> tss = new ArrayList<TimecardSimpleSummary>();
+        List<TimecardSimpleSummary> tss_list = new ArrayList<TimecardSimpleSummary>();
         while (itr_e.hasNext()) {
             Employee e = itr_e.next();
             int employee_id = e.getId();
@@ -89,20 +96,22 @@ public class TimecardFindIndex {
                     .getSingleResult();
 
             ts.setHoliday_count((int) allday_count - ts.getWorkday_count());
-
-            tss.add(ts);
+            tss_list.add(ts);
 
         }
         em.close();
 
-        tss.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status).reversed());
+        tss_list.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status)
+                .thenComparing(TimecardSimpleSummary::getWorkday_count)
+                .thenComparing(TimecardSimpleSummary::getHoliday_count)
+                .reversed());
 
         int from = (15 * (page - 1));
         int end = ((16 * page) - page);
         if (end > employee_count) {
             end = employee_count;
         }
-        List<TimecardSimpleSummary> tss_sub = tss.subList(from, end);
+        List<TimecardSimpleSummary> tss_sub = tss_list.subList(from, end);
 
         return tss_sub;
     }
@@ -111,7 +120,7 @@ public class TimecardFindIndex {
         EntityManager em = DBUtil.createEntityManager();
 
         TimecardAllSummary tas = new TimecardAllSummary(month);
-        List<TimecardAdvance> tass = new ArrayList<TimecardAdvance>();
+        List<TimecardAdvance> ta_list = new ArrayList<TimecardAdvance>();
 
         List<Date> days = MonthGroupSupport.getAlldayOfMonth(month);
         Iterator<Date> itr_days = days.iterator();
@@ -131,29 +140,25 @@ public class TimecardFindIndex {
             } catch (NoResultException ex) {
                 continue;
             }
-            long day_check = (long) em.createNamedQuery("workdayCheck", Long.class)
-                    .setParameter("day", t.getTimecard_day())
-                    .getSingleResult();
-
-            TimecardAdvance t_adv = new TimecardAdvance(t);
+            TimecardAdvance ta = new TimecardAdvance(t);
+            WorkdaySupport.holidayCheckAndAddFlag(ta);
             if (t.getEnd_at() != null) {
-                t_adv.calcTimes();
-                if (day_check == 0) {
-                    t_adv.setHoliday_flag(true);
-
-                    holiday_total.updateTotal(t_adv);
-
+                if (ta.getHoliday_flag()) {
+                    ta.holidayCalc();
+                    holiday_total.updateTotal(ta);
                 } else {
-                    workday_total.updateTotal(t_adv);
+                    ta.workdayCalc();
+                    workday_total.updateTotal(ta);
                 }
             }
-            tass.add(t_adv);
+            ta_list.add(ta);
         }
-        tas.setTimecard_advs(tass);
+        tas.setTimecard_advs(ta_list);
         if (workday_total.getDay_count() != 0) {
             workday_total.addStatus();
-        } else {
-            workday_total.setStatus("データなし");
+        }
+        if (holiday_total.getDay_count() != 0) {
+            holiday_total.holidayLastCalc(workday_total);
         }
 
         tas.setWorkday_total(workday_total);

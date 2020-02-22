@@ -3,9 +3,6 @@ package models.support;
 public class WorkStatus {
 
     public static String setWorkStatus(double double_status,int month_group) {
-        if(double_status == 0.0 ){
-            return "";
-        }
 
         if (month_group == MonthGroupSupport.getCurrentMonth_group()) {
 

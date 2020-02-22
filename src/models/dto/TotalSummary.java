@@ -1,6 +1,5 @@
 package models.dto;
 
-import models.Timecard;
 import models.support.TimecardSupport;
 import models.support.WorkStatus;
 
@@ -47,10 +46,11 @@ public class TotalSummary {
 
     }
 
-
-    public void addTimecard(Timecard t) {
-
+    public void holidayLastCalc(TotalSummary workday_total) {
+        this.total_over_time= total_over_time + workday_total.getTotal_over_time();
+        this.str_total_over_time=TimecardSupport.minutesToString(total_over_time);
     }
+
 
     public Integer getMonth_group() {
         return month_group;

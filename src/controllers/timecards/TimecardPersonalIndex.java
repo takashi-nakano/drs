@@ -69,9 +69,11 @@ public class TimecardPersonalIndex extends HttpServlet {
         }
 
         request.setAttribute("target_employee", e);
-        request.setAttribute("month_data", tas);
-        request.setAttribute("timecards", tass);
         request.setAttribute("month_list", ml);
+        request.setAttribute("month_data", tas);
+        if (tass.size() != 0) {
+            request.setAttribute("timecards", tass);
+        }
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/timecards/personal_index.jsp");
         rd.forward(request, response);
