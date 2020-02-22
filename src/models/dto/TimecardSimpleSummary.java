@@ -29,7 +29,7 @@ public class TimecardSimpleSummary {
     public void updateSummary(Timecard timecard) {
         Integer oneday_at = TimecardSupport.sumActual_timeMinutes(timecard);
 
-        this.over_time = over_time + TimecardSupport.sumOver_timeMinutes(oneday_at);
+        this.over_time += TimecardSupport.sumOver_timeMinutes(oneday_at);
         this.str_over_time = TimecardSupport.minutesToString(over_time);
         this.workday_count++;
         this.over_time_status = ((double) over_time / 60) / workday_count;

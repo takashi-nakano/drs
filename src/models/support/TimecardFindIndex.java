@@ -42,9 +42,7 @@ public class TimecardFindIndex {
             }
         }
         em.close();
-
         return ta;
-
     }
 
     public static List<TimecardSimpleSummary> findTimecardForAdmin(int month_group, int page) {
@@ -87,7 +85,6 @@ public class TimecardFindIndex {
                 if (t.getEnd_at() != null) {
                     ts.updateSummary(t);
                 }
-
             }
             long allday_count = (long) em.createNamedQuery("checkAllTimecardsOfMonth", Long.class)
                     .setParameter("employee", e.getId())
@@ -97,7 +94,6 @@ public class TimecardFindIndex {
 
             ts.setHoliday_count((int) allday_count - ts.getWorkday_count());
             tss_list.add(ts);
-
         }
         em.close();
 
@@ -112,7 +108,6 @@ public class TimecardFindIndex {
             end = employee_count;
         }
         List<TimecardSimpleSummary> tss_sub = tss_list.subList(from, end);
-
         return tss_sub;
     }
 

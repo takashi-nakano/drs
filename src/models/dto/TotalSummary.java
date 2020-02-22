@@ -24,33 +24,27 @@ public class TotalSummary {
     }
 
     public void addStatus() {
-
         this.double_status = (total_over_time / 60.0) / day_count; //  hour / 日数
         this.status = WorkStatus.setWorkStatus(double_status, month_group);
 
     }
 
     public void updateTotal(TimecardAdvance t_adv) {
-
-        this.total_actual_time = total_actual_time +t_adv.getActual_time();
-        this.total_over_time = total_over_time + t_adv.getOver_time();
-
+        this.total_actual_time += t_adv.getActual_time();
+        this.total_over_time += t_adv.getOver_time();
         this.str_total_actual_time = TimecardSupport.minutesToString(total_actual_time);
         this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
-
         this.day_count++;
 
         t_adv.setTotal_actual_time(total_actual_time);
         t_adv.setTotal_over_time(total_over_time);
         t_adv.setStr_total_over_time(str_total_over_time);
-
     }
 
     public void holidayLastCalc(TotalSummary workday_total) {
-        this.total_over_time= total_over_time + workday_total.getTotal_over_time();
-        this.str_total_over_time=TimecardSupport.minutesToString(total_over_time);
+        this.total_over_time += workday_total.getTotal_over_time();
+        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
     }
-
 
     public Integer getMonth_group() {
         return month_group;
@@ -115,6 +109,5 @@ public class TotalSummary {
     public void setStr_total_over_time(String str_total_over_time) {
         this.str_total_over_time = str_total_over_time;
     }
-
 
 }
