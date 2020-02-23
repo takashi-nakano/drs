@@ -23,9 +23,9 @@
             <tr>
                 <th>社員番号</th>
                 <th>名前</th>
-                <th>出勤日時間外労働</th>
+                <th>出勤日時間外労働時間</th>
                 <th>状況</th>
-                <th>休日出勤数</th>
+                <th>休日勤務時間（出勤日数）</th>
             </tr>
 
             <c:forEach var="timecards" items="${timecards}" varStatus="status">
@@ -50,10 +50,11 @@
                 <c:otherwise>
                    <td><c:out value="${timecards.status }"/></td>
                 </c:otherwise>
-
             </c:choose>
-            <td><c:if test="${timecards.workday_count != 0}"><c:out value="${timecards.holiday_count}"/></c:if>
 
+            <td><c:if test="${timecards.workday_count != 0 and timecards.holiday_count == 0 }">0</c:if>
+            <c:if test="${timecards.holiday_count != 0}"><c:out value="${timecards.str_holiday_over_time}" />　（
+            <c:out value="${timecards.holiday_count}"/>日 ）</c:if>
             </td>
                 </tr>
              </c:forEach>

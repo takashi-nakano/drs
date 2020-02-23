@@ -12,7 +12,6 @@ import javax.persistence.NoResultException;
 
 import models.Employee;
 import models.Timecard;
-import models.Workday;
 import models.dto.TimecardAdvance;
 import models.dto.TimecardAllSummary;
 import models.dto.TimecardSimpleSummary;
@@ -50,13 +49,7 @@ public class TimecardFindIndex {
 
         List<Employee> e_list = em.createNamedQuery("getActiveEmployees", Employee.class)
                 .getResultList();
-
-        List<Workday> w_list = em.createNamedQuery("getWorkdays", Workday.class)
-                .setParameter("month_group", month_group)
-                .getResultList();
-
-        Date first_day = MonthGroupSupport.getFirstdayOfMonth(month_group);
-        Date end_day = MonthGroupSupport.getEnddayOfMonth(month_group);
+        List<Date> w_list = MonthGroupSupport.getAlldayOfMonth(month_group);
 
         int employee_count = e_list.size();
 
@@ -67,10 +60,10 @@ public class TimecardFindIndex {
             Employee e = itr_e.next();
             int employee_id = e.getId();
             TimecardSimpleSummary ts = new TimecardSimpleSummary(e, month_group);
-            Iterator<Workday> itr_w = w_list.iterator();
+            Iterator<Date> itr_w = w_list.iterator();
 
             while (itr_w.hasNext()) {
-                Date day = itr_w.next().getWorkday();
+                Date day = itr_w.next();
                 Timecard t = new Timecard();
 
                 try {
@@ -86,20 +79,16 @@ public class TimecardFindIndex {
                     ts.updateSummary(t);
                 }
             }
-            long allday_count = (long) em.createNamedQuery("checkAllTimecardsOfMonth", Long.class)
-                    .setParameter("employee", e.getId())
-                    .setParameter("first_day", first_day)
-                    .setParameter("end_day", end_day)
-                    .getSingleResult();
-
-            ts.setHoliday_count((int) allday_count - ts.getWorkday_count());
+            if (ts.getWorkday_count() != 0) {
+                ts.lastUpdateSummary();
+            }
             tss_list.add(ts);
         }
         em.close();
 
         tss_list.sort(Comparator.comparing(TimecardSimpleSummary::getOver_time_status)
+                .thenComparing(TimecardSimpleSummary::getHoliday_over_time)
                 .thenComparing(TimecardSimpleSummary::getWorkday_count)
-                .thenComparing(TimecardSimpleSummary::getHoliday_count)
                 .reversed());
 
         int from = (15 * (page - 1));

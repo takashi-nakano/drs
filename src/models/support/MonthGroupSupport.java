@@ -67,8 +67,6 @@ public class MonthGroupSupport {
             Date date_date=new Date(date.getTime().getTime());
 
             allday_list.add(date_date);
-
-
         }
 
         return allday_list;

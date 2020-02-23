@@ -4,6 +4,7 @@ import models.Employee;
 import models.Timecard;
 import models.support.TimecardSupport;
 import models.support.WorkStatus;
+import models.support.WorkdaySupport;
 
 public class TimecardSimpleSummary {
 
@@ -16,6 +17,8 @@ public class TimecardSimpleSummary {
     private String status;
     private Integer workday_count = 0;
     private Integer holiday_count = 0;
+    private Integer holiday_over_time = 0;
+    private String str_holiday_over_time;
 
     public TimecardSimpleSummary() {
 
@@ -26,14 +29,25 @@ public class TimecardSimpleSummary {
         this.month_group = month_group;
     }
 
+
     public void updateSummary(Timecard timecard) {
         Integer oneday_at = TimecardSupport.sumActual_timeMinutes(timecard);
 
-        this.over_time += TimecardSupport.sumOver_timeMinutes(oneday_at);
-        this.str_over_time = TimecardSupport.minutesToString(over_time);
-        this.workday_count++;
+        if (WorkdaySupport.holidayCheck(timecard.getTimecard_day())) {
+            this.holiday_over_time += oneday_at;
+            this.str_holiday_over_time = TimecardSupport.minutesToString(holiday_over_time);
+            this.holiday_count++;
+        } else {
+            this.over_time += TimecardSupport.sumOver_timeMinutes(oneday_at);
+            this.str_over_time = TimecardSupport.minutesToString(over_time);
+            this.workday_count++;
+        }
+    }
+
+    public void lastUpdateSummary(){
         this.over_time_status = ((double) over_time / 60) / workday_count;
         this.status = WorkStatus.setWorkStatus(over_time_status, month_group);
+
     }
 
     public Employee getEmployee() {
@@ -98,6 +112,22 @@ public class TimecardSimpleSummary {
 
     public void setHoliday_count(Integer holiday_count) {
         this.holiday_count = holiday_count;
+    }
+
+    public Integer getHoliday_over_time() {
+        return holiday_over_time;
+    }
+
+    public void setHoliday_over_time(Integer holiday_over_time) {
+        this.holiday_over_time = holiday_over_time;
+    }
+
+    public String getStr_holiday_over_time() {
+        return str_holiday_over_time;
+    }
+
+    public void setStr_holiday_over_time(String str_holiday_over_time) {
+        this.str_holiday_over_time = str_holiday_over_time;
     }
 
 }
