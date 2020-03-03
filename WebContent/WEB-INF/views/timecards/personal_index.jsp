@@ -55,7 +55,6 @@
         <p>休日出勤</p>
         <p>出勤数：<c:out value="${month_data.holiday_total.day_count}" /></p>
         <p>休日合計実働時間：<c:out value="${month_data.holiday_total.str_total_actual_time}" /></p>
-        <p>全出勤日合計時間外労働時間：<c:out value="${month_data.holiday_total.str_total_over_time}" /></p>
 
         </div>
          </c:if>
