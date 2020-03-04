@@ -41,11 +41,6 @@ public class TotalSummary {
         t_adv.setStr_total_over_time(str_total_over_time);
     }
 
-    public void holidayLastCalc(TotalSummary workday_total) {
-        this.total_over_time += workday_total.getTotal_over_time();
-        this.str_total_over_time = TimecardSupport.minutesToString(total_over_time);
-    }
-
     public Integer getMonth_group() {
         return month_group;
     }

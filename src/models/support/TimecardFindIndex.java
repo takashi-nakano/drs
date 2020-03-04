@@ -141,9 +141,6 @@ public class TimecardFindIndex {
         if (workday_total.getDay_count() != 0) {
             workday_total.addStatus();
         }
-        if (holiday_total.getDay_count() != 0) {
-//            holiday_total.holidayLastCalc(workday_total);
-        }
 
         tas.setWorkday_total(workday_total);
         tas.setHoliday_total(holiday_total);
